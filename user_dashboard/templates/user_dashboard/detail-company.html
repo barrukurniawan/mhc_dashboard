@@ -1,0 +1,83 @@
+{% extends "user_dashboard/base_cms.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title text-center" style="font-size:20px">Detail Company</h4>
+            <form id="editCompaniesForm" method="POST" action="/detail-company/{{ dashboard_id }}">
+                {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputName1">{{formDetail.company_name.label}}</label>
+                {{formDetail.company_name}}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputName2">{{formDetail.address.label}}</label>
+                {{formDetail.address}}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail3">{{formDetail.email.label}}</label>
+              {{formDetail.email}}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputNum4">{{formDetail.mobile_number.label}}</label>
+              {{formDetail.mobile_number}}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputJenisUsaha">{{formDetail.jenis_usaha.label}}</label>
+              {{formDetail.jenis_usaha}}
+            </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title text-primary mb-5 text-center" style="font-size:20px">{{company_name}}</h2>
+            {% if the_bis.role != 'Entry data staff' %}
+              <div class="form-group">
+                <label for="exampleInputPIC">{{formDetail.pic.label}}</label>
+                  {{formDetail.pic}}
+              </div>
+              <div class="form-group">
+                <label for="exampleInputTipe">{{formDetail.tipe_sistem.label}}</label>
+                {{formDetail.tipe_sistem}}
+              </div>
+              <div class="form-group">
+                <label for="exampleInputRating">{{formDetail.rating.label}}</label>
+                {{formDetail.rating}}
+              </div>
+            {% endif %}
+            <div class="form-group">
+              <label for="exampleInputRating">{{formDetail.pulau.label}}</label>
+              {{formDetail.pulau}}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPIC">{{formDetail.province.label}}</label>
+                {{formDetail.province}}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputTipe">{{formDetail.city.label}}</label>
+              {{formDetail.city}}
+            </div>
+            <button type="submit" class="btn btn-success mr-2" style="position:absolute;left:35%;">Save</button>
+          </form>
+            <a href='/company-lists/'><button type="submit" class="btn btn-secondary mr-2" style="position:absolute;right:25%;">Close</button></a>
+
+        </div>
+          {% if formDetail.non_field_errors %}
+          <div class="col-md-12 col-xs-12 col-12">
+              <div class="non-field-errors text-center">
+                  {% for err in formDetail.non_field_errors %}
+                  <p class="form-error" style="color:red;">{{ err }}</p>
+                  {% endfor %}
+              </div>
+          </div>
+          {% endif %}
+      </div>
+    </div>
+</div>
+{% endblock %}

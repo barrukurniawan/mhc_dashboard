@@ -1,0 +1,129 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MHC Dashboard Register</title>
+  <link rel="stylesheet" href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.addons.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper auth-page">
+      <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+        <div class="row w-100">
+          <div class="col-lg-4 mx-auto">            
+            <div class="auto-form-wrapper">
+            <form id="registerForm" method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="label">{{formRegis.first_name.label}}</label>
+                  <div class="input-group">
+                    {{formRegis.first_name}}
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="label">{{formRegis.last_name.label}}</label>
+                  <div class="input-group">
+                    {{formRegis.last_name}}
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="label">{{formRegis.email.label}}</label>
+                  <div class="input-group">
+                    {{formRegis.email}}
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="label">{{formRegis.password1.label}}</label>
+                  <div class="input-group">
+                    {{formRegis.password1}}
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="label">{{formRegis.password2.label}}</label>
+                  <div class="input-group">
+                    {{formRegis.password2}}
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary submit-btn btn-block">Register</button>
+                </div>
+                {% if formRegis.non_field_errors %}
+                <div class="col-md-12 col-xs-12 col-12">
+                    <div class="non-field-errors text-center">
+                        {% for err in formRegis.non_field_errors %}
+                        <p class="form-error" style="color:red;">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="text-block text-center my-3">
+                  <span class="text-small font-weight-semibold">Sudah memiliki akun ?</span>
+                  <a href="{% url 'login' %}" class="text-black text-small">Login</a>
+                </div>
+              </form>
+            </div>
+            <ul class="auth-footer">
+              <li>
+                <a href="#">Conditions</a>
+              </li>
+              <li>
+                <a href="#">Help</a>
+              </li>
+              <li>
+                <a href="#">Terms</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <script src="{% static 'vendors/js/vendor.bundle.addons.js' %}"></script>
+  <!-- endinject -->
+  <!-- inject:js -->
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/misc.js' %}"></script>
+  <!-- endinject -->
+</body>
+
+</html>

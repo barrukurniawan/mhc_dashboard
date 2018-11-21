@@ -1,0 +1,276 @@
+{% extends "user_dashboard/base_cms.html" %}
+
+{% block content %}
+<div class="col-md-12 dashboard-content">
+    <h1 class="grey-font lmar-b" style="text-align: center;"><small>Purchase Detail</small></h1>
+    <table class="dashboard-table" style="text-align: center;">
+        <tr>
+            <th>data User</th>
+            <th>data Holder</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Phone</th>
+            <th>Categories</th>
+            <th>data</th>
+            <th>Value IDR</th>
+            <th>Order Code</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+        {% for data in transaction %}
+            {% if data.category == 1 %}
+            <tr>
+                <td>{{ data.data_name }}</td>
+                <td>{{ data.holder }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.user }}</td>
+                <td>{{ data.mobile_number }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.product }}</td>
+                <td>Rp {{ data.nominal }}</td>
+                <td>{{ data.order_code }}</td>
+                <td>{{ data.date_start }}</td>
+                <td>{{ data.date_end }}</td>
+                {% if data.status == 'Terbayar' %}
+                    <td class="green-font">{{ data.status }}</td>
+                {% elif data.status == 'Dibatalkan' %}
+                    <td class="red-font">{{ data.status }}</td>
+                {% else %}
+                    <td>{{ data.status }}</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %} 
+        <tr>
+            <th>data User</th>
+            <th>data Holder</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Phone</th>
+            <th>Categories</th>
+            <th>data</th>
+            <th>Value IDR</th>
+            <th>Order Code</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+        {% for data in transaction %}
+            {% if data.category == 2 %}
+            <tr>
+                <td>{{ data.data_name }}</td>
+                <td>{{ data.holder }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.user }}</td>
+                <td>{{ data.mobile_number }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.product }}</td>
+                <td>Rp {{ data.nominal }}</td>
+                <td>{{ data.order_code }}</td>
+                <td>{{ data.date_start }}</td>
+                <td>{{ data.date_end }}</td>
+                {% if data.status == 'Terbayar' %}
+                    <td class="green-font">{{ data.status }}</td>
+                {% elif data.status == 'Dibatalkan' %}
+                    <td class="red-font">{{ data.status }}</td>
+                {% else %}
+                    <td>{{ data.status }}</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %} 
+        <tr>
+            <th>data User</th>
+            <th>data Holder</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Phone</th>
+            <th>Categories</th>
+            <th>data</th>
+            <th>Value IDR</th>
+            <th>Order Code</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+        {% for data in transaction %}
+            {% if data.category == 3 %}
+            <tr>
+                <td>{{ data.data_name }}</td>
+                <td>{{ data.holder }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.user }}</td>
+                <td>{{ data.mobile_number }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.product }}</td>
+                <td>Rp {{ data.nominal }}</td>
+                <td>{{ data.order_code }}</td>
+                <td>{{ data.date_start }}</td>
+                <td>{{ data.date_end }}</td>
+                {% if data.status == 'Terbayar' %}
+                    <td class="green-font">{{ data.status }}</td>
+                {% elif data.status == 'Dibatalkan' %}
+                    <td class="red-font">{{ data.status }}</td>
+                {% else %}
+                    <td>{{ data.status }}</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %} 
+        <tr>
+            <th>data User</th>
+            <th>data Holder</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Phone</th>
+            <th>Categories</th>
+            <th>data</th>
+            <th>Value IDR</th>
+            <th>Order Code</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+        {% for data in transaction %}
+            {% if data.category == 4 %}
+            <tr>
+                <td>{{ data.data_name }}</td>
+                <td>{{ data.holder }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.user }}</td>
+                <td>{{ data.mobile_number }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.product }}</td>
+                <td>Rp {{ data.nominal }}</td>
+                <td>{{ data.order_code }}</td>
+                <td>{{ data.date_start }}</td>
+                <td>{{ data.date_end }}</td>
+                {% if data.status == 'Terbayar' %}
+                    <td class="green-font">{{ data.status }}</td>
+                {% elif data.status == 'Dibatalkan' %}
+                    <td class="red-font">{{ data.status }}</td>
+                {% else %}
+                    <td>{{ data.status }}</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %} 
+        <tr>
+            <th>data User</th>
+            <th>data Holder</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Phone</th>
+            <th>Categories</th>
+            <th>data</th>
+            <th>Value IDR</th>
+            <th>Order Code</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+        {% for data in transaction %}
+            {% if data.category == 5 %}
+            <tr>
+                <td>{{ data.data_name }}</td>
+                <td>{{ data.holder }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.user }}</td>
+                <td>{{ data.mobile_number }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.product }}</td>
+                <td>Rp {{ data.nominal }}</td>
+                <td>{{ data.order_code }}</td>
+                <td>{{ data.date_start }}</td>
+                <td>{{ data.date_end }}</td>
+                {% if data.status == 'Terbayar' %}
+                    <td class="green-font">{{ data.status }}</td>
+                {% elif data.status == 'Dibatalkan' %}
+                    <td class="red-font">{{ data.status }}</td>
+                {% else %}
+                    <td>{{ data.status }}</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %} 
+        <tr>
+            <th>data User</th>
+            <th>data Holder</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Phone</th>
+            <th>Categories</th>
+            <th>data</th>
+            <th>Value IDR</th>
+            <th>Order Code</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+        {% for data in transaction %}
+            {% if data.category == 6 %}
+            <tr>
+                <td>{{ data.data_name }}</td>
+                <td>{{ data.holder }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.user }}</td>
+                <td>{{ data.mobile_number }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.product }}</td>
+                <td>Rp {{ data.nominal }}</td>
+                <td>{{ data.order_code }}</td>
+                <td>{{ data.date_start }}</td>
+                <td>{{ data.date_end }}</td>
+                {% if data.status == 'Terbayar' %}
+                    <td class="green-font">{{ data.status }}</td>
+                {% elif data.status == 'Dibatalkan' %}
+                    <td class="red-font">{{ data.status }}</td>
+                {% else %}
+                    <td>{{ data.status }}</td>
+                {% endif %}
+            </tr>
+            {% endif %}       
+        {% endfor %}
+        <tr>
+            <th>data User</th>
+            <th>data Holder</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Phone</th>
+            <th>Categories</th>
+            <th>data</th>
+            <th>Value IDR</th>
+            <th>Order Code</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+        </tr>
+        {% for data in transaction %}
+            {% if data.category == 7 %}
+            <tr>
+                <td>{{ data.data_name }}</td>
+                <td>{{ data.holder }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.user }}</td>
+                <td>{{ data.mobile_number }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.product }}</td>
+                <td>Rp {{ data.nominal }}</td>
+                <td>{{ data.order_code }}</td>
+                <td>{{ data.date_start }}</td>
+                <td>{{ data.date_end }}</td>
+                {% if data.status == 'Terbayar' %}
+                    <td class="green-font">{{ data.status }}</td>
+                {% elif data.status == 'Dibatalkan' %}
+                    <td class="red-font">{{ data.status }}</td>
+                {% else %}
+                    <td>{{ data.status }}</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %} 
+    </table>
+</div>
+{% endblock %}
+

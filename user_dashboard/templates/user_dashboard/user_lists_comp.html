@@ -1,0 +1,164 @@
+{% extends "user_dashboard/base_cms.html" %}
+
+{% block content %}
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+        <div class="input-group" >
+          <div >
+              <select name="role" class="form-control" id="id_tipe_filter" onkeypress="searching()" onclick="searching()" onchange="searching()" >
+                <option value="company_name">Nama Perusahaan</option>
+                <option value="jenis_usaha">Jenis Usaha</option>
+                <option value="province">Provinsi</option>
+                <option value="city">Kota</option>
+                <option value="pulau">Pulau</option>
+              </select>
+          </div>
+            <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" onchange="searching()" onkeyup="searching()" onkeydown="searching()" onclick="searching()" onkeypress="searching()" id="id_keywords" value="">
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped" id="table_comp">
+              <thead>
+                <tr style="text-align:center;">
+                  <th>
+                    Perusahaan
+                  </th>
+                  <th>
+                    Dashboard ID
+                  </th>
+                  <th>
+                    Alamat
+                  </th>
+                  <th>
+                    Jenis Usaha
+                  </th>
+                  <th>
+                    Pulau
+                  </th>
+                  <th>
+                    Provinsi
+                  </th>
+                  <th>
+                    Kota
+                  </th>
+                  <th>
+                    Email
+                  </th>
+                  <th>
+                    PIC
+                  </th>
+                  <th>
+                    Rating
+                  </th>
+                  <th>
+                    Pulau
+                  </th>
+                  <th>
+                    Penerapan Sistem
+                  </th>
+                  <th>
+                    Status
+                  </th>
+                  <th>
+                    Created at
+                  </th>
+                  <th>
+                    Updated at
+                  </th>
+                  <th>
+                    UPDATE
+                  </th>
+                  <th>
+                    REMOVE
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+
+  <!-- Modal >
+  <div class="modal fade" id="myModal" role="dialog">
+
+  </div-->
+
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+// $.ajax({
+//   url: '/path/to/file',
+//   type: 'default GET (Other values: POST)',
+//   dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+//   data: {param1: 'value1'},
+// })
+// .done(function() {
+//   console.log("success");
+// })
+// .fail(function() {
+//   console.log("error");
+// })
+// .always(function() {
+//   console.log("complete");
+// });
+
+function  searching(){
+    var tipe_filter = $('#id_tipe_filter').val();
+    
+    if ($('#id_keywords').val() == null || $('#id_keywords').val() == ""){
+      var keywords = "all";
+    } else {
+      var keywords = $('#id_keywords').val();  
+    }
+    console.log("cari kata " + keywords);
+
+    $.getJSON('result-company/'+ tipe_filter + '/' + keywords, function (json) {
+      var tr;
+      list = "";
+
+      // $.each (json.comp_lists, function (i) {
+
+      //     list +=  "<p style='font-weight:bold;'>" + json.comp_lists[i].company_name + "</p>";
+      //     });
+      // $('#coba').html(list);
+
+      $('#table_comp').empty();
+      $('#table_comp').append("<tr style='text-align:center;'><th>Perusahaan</th><th>Dashboard ID</th><th>Alamat</th><th>Jenis Usaha</th><th>Pulau</th><th>Provinsi</th><th>Kota</th><th>Email</th><th>PIC</th><th>Rating</th><th>No.Telp</th><th>Penerapan Sistem</th><th>Status</th><th>Created at</th><th>Updated at</th><th>UPDATE</th><th>REMOVE</th></tr>");
+      for (var i = 0; i < json.comp_lists.length; i++) {
+          tr = $('<tr/>');
+          tr.append("<td style='font-weight:bold;'>" + json.comp_lists[i].company_name + "</td>");
+          tr.append("<td style='color:blue;'>" + json.comp_lists[i].dashboard_id + "</td>");
+          tr.append("<td>" + json.comp_lists[i].address + "</td>");
+          tr.append("<td>" + json.comp_lists[i].jenis_usaha + "</td>");
+          tr.append("<td>" + json.comp_lists[i].pulau + "</td>");
+          tr.append("<td>" + json.comp_lists[i].province + "</td>");
+          tr.append("<td>" + json.comp_lists[i].city + "</td>");
+          tr.append("<td>" + json.comp_lists[i].email + "</td>");
+          tr.append("<td>" + json.comp_lists[i].pic + "</td>");
+          tr.append("<td>" + json.comp_lists[i].rating + " / 5" + "</td>");
+          tr.append("<td>" + json.comp_lists[i].mobile_number + "</td>");
+          tr.append("<td>" + json.comp_lists[i].tipe_sistem + "</td>");
+          tr.append("<td style='color:green;'>" + json.comp_lists[i].status + "</td>");
+          tr.append("<td style='color:red;'>" + json.comp_lists[i].created_at + "</td>");
+          tr.append("<td style='color:red;'>" + json.comp_lists[i].updated_at + "</td>");
+          tr.append("<td ><a href='/detail-company/"+json.comp_lists[i].dashboard_id+"'><button type='submit' value='"+json.comp_lists[i].dashboard_id+"' class='btn btn-primary btn-fw'>Update</button></a></td>");
+          // tr.append("<td ><button type='button' value='"+json.comp_lists[i].dashboard_id+"' data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-fw' >Update</button></td>");
+          tr.append("<td ><a href='/remove-company/"+json.comp_lists[i].dashboard_id+"'><button type='submit' value='"+json.comp_lists[i].dashboard_id+"' class='btn btn-danger btn-fw'>Remove</button></a></td>");
+          $('#table_comp').append(tr);
+      }
+      // $.each (json.comp_lists, function (i) {
+
+      //     list +=  "<div class='modal-dialog' value='"+json.comp_lists[i].dashboard_id+"'><!-- Modal content--><div class='modal-content' value='"+json.comp_lists[i].dashboard_id+"'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body'><p> "+ json.comp_lists[i].company_name + "</p></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button></div></div></div></div>";
+      //     });
+      // $('#myModal').append(list);
+
+    }
+    );
+}
+
+$(document).ready(function(){
+  searching()
+});
+</script>
+{% endblock %}
