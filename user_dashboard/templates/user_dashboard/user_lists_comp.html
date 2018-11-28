@@ -4,9 +4,10 @@
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
+        <div class="card-description"><button type="button" class="btn btn-warning btn-fw" data-toggle='modal' data-target='#myModal'><i class="mdi mdi-file-document"></i>Comments</button></div>
         <div class="input-group" >
           <div >
-              <select name="role" class="form-control" id="id_tipe_filter" onkeypress="searching()" onclick="searching()" onchange="searching()" >
+              <select name="role" class="form-control" id="id_tipe_filter" onkeypress="searching()" onclick="searching()" >
                 <option value="company_name">Nama Perusahaan</option>
                 <option value="jenis_usaha">Jenis Usaha</option>
                 <option value="province">Provinsi</option>
@@ -76,10 +77,48 @@
             </table>
           </div>
 
-  <!-- Modal >
-  <div class="modal fade" id="myModal" role="dialog">
-
-  </div-->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="commentsForm" method="POST" action="{% url 'company-lists' %}">
+                {% csrf_token %}
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">{{ filter.recipient.label }}</label>
+                    {{ filter.recipient }}
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">{{ filter.type_msg.label }}</label>
+                      {{ filter.type_msg }}
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">{{ filter.message.label }}</label>
+                    {{ filter.message }}
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">CC Company :</label>
+                    <select name="cc_comp" class="form-control" id="id_tipe_filter" >
+                      {% for data in listing %}
+                      <option value="{{ data.company_name }}">{{ data.company_name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Create message</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
         </div>
       </div>

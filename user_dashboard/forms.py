@@ -228,6 +228,15 @@ class userDetailForm(ModelForm):
 		model = CustomUser
 		fields = ('no_identification', 'full_name', 'first_name', 'last_name', 'mobile_number', 'sex', 'birthday', 'address', 'email', 'code_pos', 'city', 'state')
 
+class CommentsForm(forms.Form):
+	recipient = forms.CharField(max_length=20, required=False, label='Recipient')
+	message = forms.CharField(widget=forms.Textarea, required=False, label='Message')
+	type_msg = forms.ChoiceField(choices=(('1', 'Penting - Prioritas'), ('2', 'Penting - Tidak Prioritas'), ('3', 'Tidak Penting - Prioritas'), ('4','Tidak Penting - Tidak Prioritas')), required=False, label='Type')
+
+	message.widget.attrs.update({'class': 'form-control', 'rows': 3})
+	recipient.widget.attrs.update({'class': 'form-control', 'readonly': 'readonly'})
+	type_msg.widget.attrs.update({'class': 'form-control'})
+
 class CompanyListForm(forms.Form):
     status = forms.ChoiceField(choices=(('Active', 'true'), ('Inactive', 'false')))
     date_from = forms.DateField(label='Tanggal Awal', input_formats=['%d/%m/%Y'], initial=(datetime.now() - timedelta(days=365)).strftime('%d/%m/%Y'))

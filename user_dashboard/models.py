@@ -88,10 +88,25 @@ class GroupBusiness(models.Model):
 	is_active = models.CharField(max_length=5, blank=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-
+	message = models.TextField()
+	type_msg = models.CharField(max_length=30, blank=True, null=True)
+	recipient = models.CharField(max_length=30, blank=True, null=True)
+	
 	class Meta:
 		db_table = 'GroupBusiness'
 		verbose_name_plural = 'GroupBusiness'
+
+class TaskBusiness(models.Model):
+	cc_comp = models.CharField(max_length=100, blank=True, null=True)
+	message = models.TextField()
+	type_msg = models.CharField(max_length=30, blank=True, null=True)
+	recipient = models.CharField(max_length=30, blank=True, null=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		db_table = 'TaskBusiness'
+		verbose_name_plural = 'TaskBusiness'
 
 class UserBusiness(models.Model):
     dashboard_id = models.CharField(max_length=8)

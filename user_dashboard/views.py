@@ -5,11 +5,12 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.conf import settings
+from django.core.paginator import Paginator
 from django.db.models import Sum, Count
 from django.contrib.postgres.search import SearchVector
 from .backends import UserModelAuth
-from .forms import CustomUserCreationForm, LoginForm, OtpForm, ResetPassForm, UserBusinessForm, GroupBusinessForm, CompanyListForm, userDetailForm, ChangePassword
-from .models import CustomUser, GroupBusiness, UserBusiness
+from .forms import CustomUserCreationForm, LoginForm, OtpForm, ResetPassForm, UserBusinessForm, GroupBusinessForm, CompanyListForm, userDetailForm, ChangePassword, CommentsForm
+from .models import CustomUser, GroupBusiness, UserBusiness, TaskBusiness
 from bcrypt import hashpw, gensalt, checkpw
 from django.core.mail import send_mail, EmailMessage
 from datetime import datetime, timedelta
@@ -251,6 +252,8 @@ def company_lists(request, tipe_filter, keywords):
     # keywords = request.POST.get('cari')
     print (keywords)
     print (tipe_filter)
+    page_choosen = request.POST.get('page', 1)
+    print (page_choosen)
 
     date_from = datetime.now() - timedelta(days=365)
     date_to = datetime.now()
@@ -282,8 +285,20 @@ def company_lists(request, tipe_filter, keywords):
     else :
         query = GroupBusiness.objects.filter(is_active='true')
 
+    paginator = Paginator(query, 5)
+    hasil = paginator.page(page_choosen)
+    print (paginator.count)
+    print (paginator.num_pages)
+    print (paginator.page_range)
+    print (hasil)
+    print (hasil.object_list)
+    print (hasil.start_index())
+    print (hasil.end_index())
+
+    print (query)
+
     listing = []
-    for item in query:
+    for item in hasil.object_list:
         if item.is_active == 'true':
             status = 'Active'
         elif item.is_active == 'false':
@@ -366,8 +381,50 @@ def employee_lists(request, tipe_filter, keywords):
 
 @login_required(login_url='/login')
 def filter_company(request):
+    query = GroupBusiness.objects.filter(is_active='true')
+    if request.method == 'POST':
+        filter = CommentsForm(request.POST)
 
-    return render(request, 'user_dashboard/user_lists_comp.html')
+        if filter.is_valid():
+            recipient = filter.cleaned_data['recipient']
+            print (recipient)
+            message = filter.cleaned_data['message']
+            print (message)
+            type_msg = filter.cleaned_data['type_msg']
+            cc_comp = request.POST['cc_comp']
+
+            group_msg = TaskBusiness.objects.create(
+                recipient    = filter.cleaned_data['recipient'],
+                message  = filter.cleaned_data['message'],
+                type_msg   = filter.cleaned_data['type_msg'],
+                cc_comp   = request.POST['cc_comp']
+            )
+            group_msg.save()
+            group_msg = GroupBusiness.objects.filter(company_name=cc_comp).update(
+                recipient    = filter.cleaned_data['recipient'],
+                message  = filter.cleaned_data['message'],
+                type_msg   = filter.cleaned_data['type_msg']
+            )
+
+    else:
+        # filter = CommentsForm()
+        default ={
+            'recipient': request.user.full_name,
+        }
+        filter = CommentsForm(default)
+    listing = []
+    for item in query:
+
+        listing.append({
+            'company_name':item.company_name,
+            'email':item.email
+        })
+
+    data = {
+        'filter'     : filter,
+        'listing'    : listing
+    }
+    return render(request, 'user_dashboard/user_lists_comp.html', data)
 
 @login_required(login_url='/login')
 def filter_employee(request):
