@@ -103,6 +103,7 @@ class TaskBusiness(models.Model):
 	recipient = models.CharField(max_length=30, blank=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+	dashboard_id = models.CharField(max_length=8)
 
 	class Meta:
 		db_table = 'TaskBusiness'

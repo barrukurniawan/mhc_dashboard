@@ -4,7 +4,8 @@
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-        <div class="card-description"><button type="button" class="btn btn-warning btn-fw" data-toggle='modal' data-target='#myModal'><i class="mdi mdi-file-document"></i>Comments</button></div>
+        <div class="template-demo"><button type="button" class="btn btn-warning btn-fw" data-toggle='modal' data-target='#myModal'><i class="mdi mdi-file-document"></i>Comments</button><button type="button" class="btn btn-success btn-fw" data-toggle='modal' data-target='#myMsg'><i class="mdi mdi-file-document"></i>Comment Lists</button></div>
+        <div class="card-description"></div>
         <div class="input-group" >
           <div >
               <select name="role" class="form-control" id="id_tipe_filter" onkeypress="searching()" onclick="searching()" >
@@ -75,8 +76,10 @@
                 </tr>
               </thead>
             </table>
+<!--             <ul id="pagination-demo" class="pagination-lg pull-right"></ul> -->
           </div>
 
+        <div class="modal fade" id="myMsg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"></div>
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -141,6 +144,60 @@
 // .always(function() {
 //   console.log("complete");
 // });
+$('#pagination-demo').twbsPagination({
+totalPages: 5,
+// the current page that show on start
+startPage: 1,
+
+// maximum visible pages
+visiblePages: 5,
+
+initiateStartPageClick: true,
+
+// template for pagination links
+href: false,
+
+// variable name in href template for page number
+hrefVariable: '{{number}}',
+
+// Text labels
+first: 'First',
+prev: 'Previous',
+next: 'Next',
+last: 'Last',
+
+// carousel-style pagination
+loop: false,
+
+// callback function
+onPageClick: function (event, page) {
+  $('.page-active').removeClass('page-active');
+  $('#page'+page).addClass('page-active');
+},
+
+// pagination Classes
+paginationClass: 'pagination',
+nextClass: 'next',
+prevClass: 'prev',
+lastClass: 'last',
+firstClass: 'first',
+pageClass: 'page',
+activeClass: 'active',
+disabledClass: 'disabled'
+
+});
+
+function msg_lists(){
+  $.getJSON('result-message/', function (json) { 
+    lists_msg = "";
+      $.each (json.msg_lists, function (i) {
+
+          lists_msg +=  "<div class='modal-dialog' value='"+json.msg_lists[i].dashboard_id+"'><!-- Modal content--><div class='modal-content' value='"+json.msg_lists[i].dashboard_id+"'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body'><p>CC : "+ json.msg_lists[i].cc_comp + "</p><p>Tipe : "+ json.msg_lists[i].type_msg + "</p><p>Dari : "+ json.msg_lists[i].recipient + "</p><p>Pesan : "+ json.msg_lists[i].message + "</p></div><div class='modal-footer'><a href='/detail-company/"+json.msg_lists[i].dashboard_id+"'><button type='submit' value='"+json.msg_lists[i].dashboard_id+"' class='btn btn-primary btn-fw'>Update</button></a></div></div></div></div>";
+          });
+      $('#myMsg').append(lists_msg);    
+  }
+  ); 
+}
 
 function  searching(){
     var tipe_filter = $('#id_tipe_filter').val();
@@ -188,9 +245,9 @@ function  searching(){
       }
       // $.each (json.comp_lists, function (i) {
 
-      //     list +=  "<div class='modal-dialog' value='"+json.comp_lists[i].dashboard_id+"'><!-- Modal content--><div class='modal-content' value='"+json.comp_lists[i].dashboard_id+"'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body'><p> "+ json.comp_lists[i].company_name + "</p></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button></div></div></div></div>";
+      //     list +=  "<div class='modal-dialog' value='"+json.comp_lists[i].dashboard_id+"'><!-- Modal content--><div class='modal-content' value='"+json.comp_lists[i].dashboard_id+"'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body'><p>CC : "+ json.comp_lists[i].company_name + "</p><p>Tipe : "+ json.comp_lists[i].type_msg + "</p><p>Dari : "+ json.comp_lists[i].recipient + "</p><p>Pesan : "+ json.comp_lists[i].message + "</p></div><div class='modal-footer'><a href='/detail-company/"+json.comp_lists[i].dashboard_id+"'><button type='submit' value='"+json.comp_lists[i].dashboard_id+"' class='btn btn-primary btn-fw'>Update</button></a></div></div></div></div>";
       //     });
-      // $('#myModal').append(list);
+      // $('#myMsg').append(list);
 
     }
     );
@@ -198,6 +255,7 @@ function  searching(){
 
 $(document).ready(function(){
   searching()
+  msg_lists()
 });
 </script>
 {% endblock %}

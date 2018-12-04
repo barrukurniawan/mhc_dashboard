@@ -298,7 +298,7 @@ def company_lists(request, tipe_filter, keywords):
     print (query)
 
     listing = []
-    for item in hasil.object_list:
+    for item in query:
         if item.is_active == 'true':
             status = 'Active'
         elif item.is_active == 'false':
@@ -321,11 +321,42 @@ def company_lists(request, tipe_filter, keywords):
             'updated_at':str(item.updated_at.strftime('%d/%m/%Y')),
             'tipe_sistem': item.tipe_sistem,
             'rating': item.rating,
-            'status': status
+            'status': status,
+            'message' : item.message,
+            'type_msg' : item.type_msg,
+            'recipient' : item.recipient
         })
 
     data ={
         'comp_lists': listing
+    }
+    s1 = json.dumps(data)
+    return JsonResponse(json.loads(s1))
+
+@login_required(login_url='/login')
+def message_lists(request):
+    date_from = datetime.now() - timedelta(days=365)
+    date_to = datetime.now()
+
+    query = TaskBusiness.objects.filter(created_at__range=(date_from, date_to)).order_by('-created_at')
+
+    listing = []
+    for item in query:
+
+        listing.append({
+            'cc_comp':item.cc_comp,
+            'created_at':str(item.created_at.strftime('%d/%m/%Y')),
+            'updated_at':str(item.updated_at.strftime('%d/%m/%Y')),
+            'message' : item.message,
+            'dashboard_id' : item.dashboard_id,
+            'type_msg' : item.type_msg,
+            'recipient' : item.recipient
+        })
+
+    print (listing)
+
+    data ={
+        'msg_lists': listing
     }
     s1 = json.dumps(data)
     return JsonResponse(json.loads(s1))
@@ -393,11 +424,14 @@ def filter_company(request):
             type_msg = filter.cleaned_data['type_msg']
             cc_comp = request.POST['cc_comp']
 
+            query_comp = GroupBusiness.objects.get(company_name=cc_comp)
+
             group_msg = TaskBusiness.objects.create(
                 recipient    = filter.cleaned_data['recipient'],
                 message  = filter.cleaned_data['message'],
                 type_msg   = filter.cleaned_data['type_msg'],
-                cc_comp   = request.POST['cc_comp']
+                cc_comp   = request.POST['cc_comp'],
+                dashboard_id   = query_comp.dashboard_id
             )
             group_msg.save()
             group_msg = GroupBusiness.objects.filter(company_name=cc_comp).update(
@@ -407,7 +441,6 @@ def filter_company(request):
             )
 
     else:
-        # filter = CommentsForm()
         default ={
             'recipient': request.user.full_name,
         }

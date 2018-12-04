@@ -16301,4 +16301,15 @@ ul {
   .error-page .error-page-divider {
     border-left: 3px solid rgba(255, 255, 255, 0.2); } }
 
+.container {
+  margin-top: 20px;
+}
+.page {
+  display: none;
+}
+.page-active {
+  display: block;
+}
+
+
 /*# sourceMappingURL=maps/style.css.map */
