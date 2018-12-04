@@ -89,8 +89,8 @@ class GroupBusiness(models.Model):
 		return self.name
 
 	class Meta:
-		db_table = 'GroupBusiness'
-		verbose_name_plural = 'GroupBusiness'
+		db_table = 'groupbusiness'
+		verbose_name_plural = 'groupbusiness'
 
 class UserBusiness(models.Model):
     dashboard_id = models.CharField(max_length=8)

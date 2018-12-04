@@ -33,7 +33,7 @@ DEBUG = True
 
 # if DEBUG is True:
 #     ALLOWED_HOSTS = []
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kurniawanbarru.pythonanywhere.com', '.pythonanywhere.com', '.googleapis.com',]
 
 
 # Application definition
@@ -95,10 +95,10 @@ EMAIL_HOST_PASSWORD = 'sman60jakarta'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mhc_admin',
-        'HOST': '127.0.0.1',
-        'USER':'root',
-        'PASSWORD': '',
+        'NAME': 'kurniawanbarru$default',
+        'HOST': 'kurniawanbarru.mysql.pythonanywhere-services.com',
+        'USER':'kurniawanbarru',
+        'PASSWORD': 'sman60jakarta',
     }
 }
 
@@ -138,7 +138,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
+#STATIC_ROOT = '/home/kurniawanbarru/mhc_dashboard/assets'
+#STATIC_ROOT = (
+#        os.path.join(BASE_DIR, 'assets'),
+#)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),

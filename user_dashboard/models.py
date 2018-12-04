@@ -90,8 +90,8 @@ class GroupBusiness(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 
 	class Meta:
-		db_table = 'GroupBusiness'
-		verbose_name_plural = 'GroupBusiness'
+		db_table = 'groupbusiness'
+		verbose_name_plural = 'groupbusiness'
 
 class UserBusiness(models.Model):
     dashboard_id = models.CharField(max_length=8)
@@ -108,19 +108,19 @@ class UserBusiness(models.Model):
     status = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-    	db_table = 'UserBusiness'
-    	verbose_name_plural = 'UserBusiness'
+    	db_table = 'userbusiness'
+    	verbose_name_plural = 'userbusiness'
 
-class PaymentFee(models.Model):
-    payment_method = models.CharField(max_length=10, blank=True, null=True)
-    min_amount = models.FloatField(blank=True, null=True)
-    max_amount = models.FloatField(blank=True, null=True)
-    fee = models.FloatField(blank=True, null=True)
-    add_fee = models.FloatField(blank=True, null=True)
+#class PaymentFee(models.Model):
+#    payment_method = models.CharField(max_length=10, blank=True, null=True)
+#    min_amount = models.FloatField(blank=True, null=True)
+#    max_amount = models.FloatField(blank=True, null=True)
+#    fee = models.FloatField(blank=True, null=True)
+#    add_fee = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'payment_fee'
+#    class Meta:
+#        managed = False
+#        db_table = 'payment_fee'
 
 
 class Province(models.Model):
