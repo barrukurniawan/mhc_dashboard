@@ -426,14 +426,13 @@ def filter_company(request):
 
             query_comp = GroupBusiness.objects.get(company_name=cc_comp)
 
-            group_msg = TaskBusiness.objects.create(
+            group_msg = TaskBusiness.objects.update_or_create(
                 recipient    = filter.cleaned_data['recipient'],
                 message  = filter.cleaned_data['message'],
                 type_msg   = filter.cleaned_data['type_msg'],
                 cc_comp   = request.POST['cc_comp'],
                 dashboard_id   = query_comp.dashboard_id
             )
-            group_msg.save()
             group_msg = GroupBusiness.objects.filter(company_name=cc_comp).update(
                 recipient    = filter.cleaned_data['recipient'],
                 message  = filter.cleaned_data['message'],
@@ -648,7 +647,9 @@ def comp_detail_view(request, dash_id):
             'pulau': the_comp.pulau,
             'city': the_comp.city,
             'pic': the_comp.pic,
-            'rating': the_comp.rating
+            'rating': the_comp.rating,
+            'type_msg' : the_comp.type_msg,
+            'message' : the_comp.message
         }
         form = GroupBusinessForm(default)
 

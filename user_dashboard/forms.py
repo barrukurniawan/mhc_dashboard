@@ -142,6 +142,9 @@ class GroupBusinessForm(ModelForm):
 	tipe_sistem = forms.CharField(max_length=100, required=False, label='Penerapan Sistem')
 	rating = forms.CharField(max_length=1, required=False, label='Rating')
 
+	message = forms.CharField(max_length=30, required=False, label='Message')
+	type_msg = forms.ChoiceField(choices=(('1', 'Penting - Prioritas'), ('2', 'Penting - Tidak Prioritas'), ('3', 'Tidak Penting - Prioritas'), ('4','Tidak Penting - Tidak Prioritas')), required=False, label='Type')
+
 	company_name.widget.attrs.update({'class': 'form-control'})
 	email.widget.attrs.update({'class': 'form-control'})
 	mobile_number.widget.attrs.update({'class': 'form-control'})
@@ -153,10 +156,12 @@ class GroupBusinessForm(ModelForm):
 	pulau.widget.attrs.update({'class': 'form-control'})
 	tipe_sistem.widget.attrs.update({'class': 'form-control'})
 	rating.widget.attrs.update({'class': 'form-control'})
+	message.widget.attrs.update({'class': 'form-control'})
+	type_msg.widget.attrs.update({'class': 'form-control'})
 
 	class Meta:
 		model = GroupBusiness
-		fields = ('company_name','address','mobile_number','email', 'jenis_usaha', 'pic', 'tipe_sistem', 'rating', 'pulau', 'province', 'city')
+		fields = ('company_name','address','mobile_number','email', 'jenis_usaha', 'pic', 'tipe_sistem', 'rating', 'pulau', 'province', 'city', 'type_msg', 'message')
 
 class UserBusinessForm(ModelForm):
     first_name = forms.CharField(max_length=20, required=False, label='Nama Depan')

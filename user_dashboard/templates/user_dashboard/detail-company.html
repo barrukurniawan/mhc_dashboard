@@ -28,7 +28,20 @@
               <label for="exampleInputJenisUsaha">{{formDetail.jenis_usaha.label}}</label>
               {{formDetail.jenis_usaha}}
             </div>
-
+            {% if the_bis.role != 'Entry data staff' %}
+            <div class="form-group">
+              <label for="exampleInputPIC">{{formDetail.pic.label}}</label>
+                {{formDetail.pic}}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputTipe">{{formDetail.tipe_sistem.label}}</label>
+              {{formDetail.tipe_sistem}}
+            </div>
+            <div class="form-group">
+              <label for="exampleInputRating">{{formDetail.rating.label}}</label>
+              {{formDetail.rating}}
+            </div>
+            {% endif %}
         </div>
       </div>
     </div>
@@ -37,20 +50,14 @@
       <div class="card">
         <div class="card-body">
           <h2 class="card-title text-primary mb-5 text-center" style="font-size:20px">{{company_name}}</h2>
-            {% if the_bis.role != 'Entry data staff' %}
               <div class="form-group">
-                <label for="exampleInputPIC">{{formDetail.pic.label}}</label>
-                  {{formDetail.pic}}
+                <label for="exampleInputPIC">{{formDetail.message.label}}</label>
+                  {{formDetail.message}}
               </div>
               <div class="form-group">
-                <label for="exampleInputTipe">{{formDetail.tipe_sistem.label}}</label>
-                {{formDetail.tipe_sistem}}
+                <label for="exampleInputTipe">{{formDetail.type_msg.label}}</label>
+                {{formDetail.type_msg}}
               </div>
-              <div class="form-group">
-                <label for="exampleInputRating">{{formDetail.rating.label}}</label>
-                {{formDetail.rating}}
-              </div>
-            {% endif %}
             <div class="form-group">
               <label for="exampleInputRating">{{formDetail.pulau.label}}</label>
               {{formDetail.pulau}}
