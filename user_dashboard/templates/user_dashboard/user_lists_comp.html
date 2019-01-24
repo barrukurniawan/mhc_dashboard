@@ -17,13 +17,14 @@
           </div>
             <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" onchange="searching();" onkeyup="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" id="id_keywords" value="">
           <div >
-              <select name="role" class="form-control" id="id_pagin" onchange="searching();" onkeyup="this.onchange();" >
+            <button type="button" class="btn social-btn btn-social-outline-twitter"><i id="totalnya"></i></button>
+<!--               <select name="role" class="form-control" id="id_pagin" onchange="searching();" onkeyup="this.onchange();" >
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
-              </select>
+              </select> -->
           </div>
           </div>
           <div class="table-responsive">
@@ -135,7 +136,7 @@
         </div>
       </div>
     </div>
-      <ul class="uk-pagination" id="ukauka"></ul>
+      <ul class="uk-pagination" id="ukauka" ></ul>
 
 {% endblock %}
 
@@ -176,23 +177,11 @@ function msg_lists(){
 }
 
 function mypagination(){
+  // var num;
     // $.getJSON('result-page/', function (json) {
     //     $.each (json.page_lists, function (i) {
     //       console.log(json.page_lists[i].total_data);
-        $.getJSON('result-page/', function (json) {
-            for (let i = 0; i < 1; i++) {
-                console.log(json.page_lists[i].total_data);
 
-          var jumlah =14;
-          var sortnya = 5;
-          // var sortlah = $('#id_pagin').val();
-          // console.log(sortlah);
-          var element = document.querySelector('.uk-pagination');
-          var pagination = UIkit.pagination(element, {
-                            items:json.page_lists[i].total_data,
-                            itemsOnPage:json.page_lists[i].sortir
-               });
-          console.log(pagination);
           $('#ukauka').on('select.uk.pagination', function(e, pageIndex){
               // console.log('You have selected page: ' + (pageIndex+1));
             num = pageIndex+1;
@@ -200,17 +189,30 @@ function mypagination(){
           });
     //   });
     // });
-              }
-        });
+
 }
 
 function  searching(num){
-    var sortpage = $('#id_pagin').val();
+    var sortpage = 10;
     var tipe_filter = $('#id_tipe_filter').val();
     var list;
     var pagenya;
-    // console.log("sortir: " + sortpage);
+    var bla = parseInt(sortpage);
 
+    // console.log("sortir: " + sortpage);
+    $.getJSON('result-page/', function (json) {
+        for (let i = 0; i < 1; i++) {
+            // console.log(json.page_lists[i].total_data);
+            // var sortlah = $('#id_pagin').val();
+            // console.log(bla);
+            var element = document.querySelector('.uk-pagination');
+            var pagination = UIkit.pagination(element, {
+                              items:json.page_lists[i].total_data,
+                              itemsOnPage:bla
+                 });
+            // console.log(pagination);
+          }
+    });
     if (num == null || num == "" || num == "undefined" ){
       var page = 1;
     } else {
@@ -258,11 +260,12 @@ function  searching(num){
           $('#table_comp').append(tr);
           // tr.append("<td ><button type='button' value='"+json.comp_lists[i].dashboard_id+"' data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-fw' >Update</button></td>");
           pagenya = json.comp_lists[i].total_data;
+          hasil_akhir = json.comp_lists[i].hasil_akhir;
 
       }
       // mypagination(sortpage)
-      // console.log("sortir: " + sortpage);
-      // $('#cobain').append(pagenya);
+      // console.log("totalnya : " + pagenya + ",hasil akhir : " + hasil_akhir);
+      $('#totalnya').html("Total data : " + hasil_akhir + " / " + pagenya);
       // $.each (json.comp_lists, function (i) {
 
       //     list +=  "<div class='modal-dialog' value='"+json.comp_lists[i].dashboard_id+"'><!-- Modal content--><div class='modal-content' value='"+json.comp_lists[i].dashboard_id+"'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body'><p>CC : "+ json.comp_lists[i].company_name + "</p><p>Tipe : "+ json.comp_lists[i].type_msg + "</p><p>Dari : "+ json.comp_lists[i].recipient + "</p><p>Pesan : "+ json.comp_lists[i].message + "</p></div><div class='modal-footer'><a href='/detail-company/"+json.comp_lists[i].dashboard_id+"'><button type='submit' value='"+json.comp_lists[i].dashboard_id+"' class='btn btn-primary btn-fw'>Update</button></a></div></div></div></div>";

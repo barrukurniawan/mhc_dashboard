@@ -291,11 +291,11 @@ def company_lists(request, page, sort, tipe_filter, keywords):
     # print ('paginatornya = ',paginator)
     print ('jumlah total data = ',paginator.count,',sort : ', sort,',keyword : ', keywords,',pilihan page = ',page_choosen)
     # print ('jumlah halaman = ',paginator.num_pages)
-    # print ('range halaman = ',paginator.page_range)
-    # print ('halaman yang dipilih = ',hasil)
-    # print ('isi object = ',hasil.object_list)
-    # print (hasil.start_index())
-    # print (hasil.end_index())
+    print ('range halaman = ',paginator.page_range)
+    print ('halaman yang dipilih = ',hasil)
+    print ('isi object = ',hasil.object_list)
+    print (hasil.start_index())
+    print (hasil.end_index())
 
     # print ('isi query = ',query)
 
@@ -306,6 +306,7 @@ def company_lists(request, page, sort, tipe_filter, keywords):
             total_data = paginator.count 
             halaman_now = page_choosen
             jumlah_halaman = paginator.num_pages
+            hasil_akhir = hasil.end_index()
         elif item.is_active == 'false':
             status = 'Inactive'
         
@@ -334,7 +335,8 @@ def company_lists(request, page, sort, tipe_filter, keywords):
             'total_data' : total_data,
             'halaman_now' : halaman_now,
             'jumlah_halaman' : jumlah_halaman,
-            'sortir' : sort
+            'sortir' : sort,
+            'hasil_akhir' : hasil_akhir
         })
 
     data ={
