@@ -291,11 +291,11 @@ def company_lists(request, page, sort, tipe_filter, keywords):
     # print ('paginatornya = ',paginator)
     print ('jumlah total data = ',paginator.count,',sort : ', sort,',keyword : ', keywords,',pilihan page = ',page_choosen)
     # print ('jumlah halaman = ',paginator.num_pages)
-    print ('range halaman = ',paginator.page_range)
-    print ('halaman yang dipilih = ',hasil)
-    print ('isi object = ',hasil.object_list)
-    print (hasil.start_index())
-    print (hasil.end_index())
+    # print ('range halaman = ',paginator.page_range)
+    # print ('halaman yang dipilih = ',hasil)
+    # print ('isi object = ',hasil.object_list)
+    # print (hasil.start_index())
+    # print (hasil.end_index())
 
     # print ('isi query = ',query)
 
@@ -354,12 +354,12 @@ def page_lists(request):
     date_to = timezone.now()
 
     query = GroupBusiness.objects.filter(is_active='true')
-    sort =5;
+    sort =1;
 
     paginator = Paginator(query, sort)
     hasil = paginator.page(page_choosen)
     # print ('paginatornya = ',paginator)
-    print ('GET DATA JUMLAH PAGINATION = ',paginator.count,',sort : ', sort,',pilihan page = ',page_choosen)
+    # print ('GET DATA JUMLAH PAGINATION = ',paginator.count,',sort : ', sort,',pilihan page = ',page_choosen)
     # print ('jumlah halaman = ',paginator.num_pages)
     # print ('range halaman = ',paginator.page_range)
     # print ('halaman yang dipilih = ',hasil)

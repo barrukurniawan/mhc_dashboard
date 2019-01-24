@@ -181,7 +181,20 @@ function mypagination(){
     // $.getJSON('result-page/', function (json) {
     //     $.each (json.page_lists, function (i) {
     //       console.log(json.page_lists[i].total_data);
-
+    // console.log("sortir: " + sortpage);
+    $.getJSON('result-page/', function (json) {
+        for (let i = 0; i < 1; i++) {
+            // console.log(json.page_lists[i].total_data);
+            // var sortlah = $('#id_pagin').val();
+            // console.log(bla);
+            var element = document.querySelector('.uk-pagination');
+            var pagination = UIkit.pagination(element, {
+                              items:json.page_lists[i].total_data,
+                              itemsOnPage:10
+                 });
+            // console.log(pagination);
+          }
+    });
           $('#ukauka').on('select.uk.pagination', function(e, pageIndex){
               // console.log('You have selected page: ' + (pageIndex+1));
             num = pageIndex+1;
@@ -199,20 +212,7 @@ function  searching(num){
     var pagenya;
     var bla = parseInt(sortpage);
 
-    // console.log("sortir: " + sortpage);
-    $.getJSON('result-page/', function (json) {
-        for (let i = 0; i < 1; i++) {
-            // console.log(json.page_lists[i].total_data);
-            // var sortlah = $('#id_pagin').val();
-            // console.log(bla);
-            var element = document.querySelector('.uk-pagination');
-            var pagination = UIkit.pagination(element, {
-                              items:json.page_lists[i].total_data,
-                              itemsOnPage:bla
-                 });
-            // console.log(pagination);
-          }
-    });
+
     if (num == null || num == "" || num == "undefined" ){
       var page = 1;
     } else {
