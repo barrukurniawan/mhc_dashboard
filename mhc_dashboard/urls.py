@@ -20,10 +20,11 @@ from user_dashboard import views as dashboard
 urlpatterns = [
     path('entry-employees/', dashboard.add_user_dashboard, name='entry-employees'),
     path('entry-companies/', dashboard.add_company, name='entry-companies'),
-    path('company-lists/result-company/<path:tipe_filter>/<path:keywords>', dashboard.company_lists, name='result-company'),
+    path('company-lists/result-company/<path:sort>/<path:page>/<path:tipe_filter>/<path:keywords>', dashboard.company_lists, name='result-company'),
     path('company-lists/result-message/', dashboard.message_lists, name='result-message'),
+    path('company-lists/result-page/', dashboard.page_lists, name='result-page'),
     path('remove-company/<path:dash_id>', dashboard.remove_company, name='remove-company'),
-    path('employee-lists/result-employee/<path:tipe_filter>/<path:keywords>', dashboard.employee_lists, name='result-employee'),
+    path('employee-lists/result-employee/<path:sort>/<path:page>/<path:tipe_filter>/<path:keywords>', dashboard.employee_lists, name='result-employee'),
     path('remove-employee/<path:my_email>', dashboard.remove_employee, name='remove-employee'),
     path('company-lists/', dashboard.filter_company, name='company-lists'),
     path('detail-company/<path:dash_id>', dashboard.comp_detail_view, name='detail-company'),

@@ -15,7 +15,8 @@ from bcrypt import hashpw, gensalt, checkpw
 from django.core.mail import send_mail, EmailMessage
 from datetime import datetime, timedelta
 import json, string, random, uuid
-
+from django.utils import timezone
+import pytz
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -248,15 +249,15 @@ def add_company(request):
     return render(request, 'user_dashboard/insert_data_companies.html', data)
 
 @login_required(login_url='/login')
-def company_lists(request, tipe_filter, keywords):
+def company_lists(request, page, sort, tipe_filter, keywords):
     # keywords = request.POST.get('cari')
-    print (keywords)
-    print (tipe_filter)
-    page_choosen = request.POST.get('page', 1)
-    print (page_choosen)
+    # print (keywords)
+    # print (tipe_filter)
 
-    date_from = datetime.now() - timedelta(days=365)
-    date_to = datetime.now()
+    page_choosen = request.POST.get('page', page)
+
+    date_from = timezone.now() - timedelta(days=365)
+    date_to = timezone.now()
 
     if tipe_filter == 'company_name' and keywords == 'all':
         query = GroupBusiness.objects.filter(is_active='true', created_at__range=(date_from, date_to)).order_by('-created_at')
@@ -285,24 +286,29 @@ def company_lists(request, tipe_filter, keywords):
     else :
         query = GroupBusiness.objects.filter(is_active='true')
 
-    paginator = Paginator(query, 5)
+    paginator = Paginator(query, sort)
     hasil = paginator.page(page_choosen)
-    print (paginator.count)
-    print (paginator.num_pages)
-    print (paginator.page_range)
-    print (hasil)
-    print (hasil.object_list)
-    print (hasil.start_index())
-    print (hasil.end_index())
+    # print ('paginatornya = ',paginator)
+    print ('jumlah total data = ',paginator.count,',sort : ', sort,',keyword : ', keywords,',pilihan page = ',page_choosen)
+    # print ('jumlah halaman = ',paginator.num_pages)
+    # print ('range halaman = ',paginator.page_range)
+    # print ('halaman yang dipilih = ',hasil)
+    # print ('isi object = ',hasil.object_list)
+    # print (hasil.start_index())
+    # print (hasil.end_index())
 
-    print (query)
+    # print ('isi query = ',query)
 
     listing = []
-    for item in query:
+    for item in hasil.object_list:
         if item.is_active == 'true':
             status = 'Active'
+            total_data = paginator.count 
+            halaman_now = page_choosen
+            jumlah_halaman = paginator.num_pages
         elif item.is_active == 'false':
             status = 'Inactive'
+        
 
         # if item.province or item.city or item.pulau or item.jenis_usaha or item.pic or item.rating or item.tipe_sistem is undefined:
 
@@ -324,7 +330,11 @@ def company_lists(request, tipe_filter, keywords):
             'status': status,
             'message' : item.message,
             'type_msg' : item.type_msg,
-            'recipient' : item.recipient
+            'recipient' : item.recipient,
+            'total_data' : total_data,
+            'halaman_now' : halaman_now,
+            'jumlah_halaman' : jumlah_halaman,
+            'sortir' : sort
         })
 
     data ={
@@ -334,9 +344,57 @@ def company_lists(request, tipe_filter, keywords):
     return JsonResponse(json.loads(s1))
 
 @login_required(login_url='/login')
+def page_lists(request):
+    page =1;
+    page_choosen = request.POST.get('page', page)
+
+    date_from = timezone.now() - timedelta(days=365)
+    date_to = timezone.now()
+
+    query = GroupBusiness.objects.filter(is_active='true')
+    sort =5;
+
+    paginator = Paginator(query, sort)
+    hasil = paginator.page(page_choosen)
+    # print ('paginatornya = ',paginator)
+    print ('GET DATA JUMLAH PAGINATION = ',paginator.count,',sort : ', sort,',pilihan page = ',page_choosen)
+    # print ('jumlah halaman = ',paginator.num_pages)
+    # print ('range halaman = ',paginator.page_range)
+    # print ('halaman yang dipilih = ',hasil)
+    # print ('isi object = ',hasil.object_list)
+    # print (hasil.start_index())
+    # print (hasil.end_index())
+
+    # print ('isi query = ',query)
+
+    listing = []
+    for item in query :
+        if item.is_active == 'true':
+            status = 'Active'
+            total_data = paginator.count 
+            halaman_now = page_choosen
+            jumlah_halaman = paginator.num_pages
+        elif item.is_active == 'false':
+            status = 'Inactive'
+
+        listing.append({
+            'company_name':item.company_name,
+            'total_data' : total_data,
+            'halaman_now' : halaman_now,
+            'jumlah_halaman' : jumlah_halaman,
+            'sortir' : sort
+        })
+
+    data ={
+        'page_lists': listing
+    }
+    s1 = json.dumps(data)
+    return JsonResponse(json.loads(s1))
+
+@login_required(login_url='/login')
 def message_lists(request):
-    date_from = datetime.now() - timedelta(days=365)
-    date_to = datetime.now()
+    date_from = timezone.now() - timedelta(days=365)
+    date_to = timezone.now()
 
     query = TaskBusiness.objects.filter(created_at__range=(date_from, date_to)).order_by('-created_at')
 
@@ -353,7 +411,7 @@ def message_lists(request):
             'recipient' : item.recipient
         })
 
-    print (listing)
+    # print (listing)
 
     data ={
         'msg_lists': listing
@@ -367,8 +425,8 @@ def employee_lists(request, tipe_filter, keywords):
     print (keywords)
     print (tipe_filter)
 
-    date_from = datetime.now() - timedelta(days=365)
-    date_to = datetime.now()
+    date_from = timezone.now() - timedelta(days=365)
+    date_to = timezone.now()
 
     if tipe_filter == 'nama' and keywords == 'all':
         query = UserBusiness.objects.filter(role__isnull=False, is_active='true', created_at__range=(date_from, date_to)).order_by('-created_at')

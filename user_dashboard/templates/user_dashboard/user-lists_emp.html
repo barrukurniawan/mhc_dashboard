@@ -6,13 +6,22 @@
         <div class="card-body">
         <div class="input-group" >
           <div >
-              <select name="role" class="form-control" id="id_tipe_filter" onkeypress="searching()" onclick="searching()" onchange="searching()" >
+              <select name="role" class="form-control" id="id_tipe_filter" onchange="searching()" onkeypress="this.onchange()" onclick="this.onchange()"  >
                 <option value="nama">Nama Karyawan</option>
                 <option value="status">Role / Level Struktur</option>
                 <option value="posisi">Posisi Pekerjaan</option>
               </select>
           </div>
-            <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" onchange="searching()" onkeyup="searching()" onkeydown="searching()" onclick="searching()" onkeypress="searching()" id="id_keywords" value="">
+            <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" onchange="searching();" onkeyup="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" id="id_keywords" value="">
+          <div >
+              <select name="role" class="form-control" id="id_pagin" onchange="searching();" onkeyup="this.onchange();" >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+          </div>
           </div>
           <div class="table-responsive">
             <table class="table table-striped" id="table_emp">
