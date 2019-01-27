@@ -14,13 +14,7 @@
           </div>
             <input type="text" class="form-control" placeholder="Search" aria-label="Username" aria-describedby="basic-addon1" onchange="searching();" onkeyup="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();" id="id_keywords" value="">
           <div >
-              <select name="role" class="form-control" id="id_pagin" onchange="searching();" onkeyup="this.onchange();" >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
+              <button type="button" class="btn social-btn btn-social-outline-twitter"><i id="totalnya"></i></button>
           </div>
           </div>
           <div class="table-responsive">
@@ -86,28 +80,53 @@
         </div>
       </div>
     </div>
+    <ul class="uk-pagination" id="ukauka" ></ul>
+
 {% endblock %}
 {% block scripts %}
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/uikit.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/components/pagination.js"></script>
 <script type="text/javascript">
-// $.ajax({
-//   url: '/path/to/file',
-//   type: 'default GET (Other values: POST)',
-//   dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-//   data: {param1: 'value1'},
-// })
-// .done(function() {
-//   console.log("success");
-// })
-// .fail(function() {
-//   console.log("error");
-// })
-// .always(function() {
-//   console.log("complete");
-// });
+function mypagination(){
+  // var num;
+    // $.getJSON('result-page/', function (json) {
+    //     $.each (json.page_lists, function (i) {
+    //       console.log(json.page_lists[i].total_data);
+    // console.log("sortir: " + sortpage);
+    $.getJSON('result-page-emp/', function (json) {
+        for (let i = 0; i < 1; i++) {
+            // console.log(json.page_lists[i].total_data);
+            // var sortlah = $('#id_pagin').val();
+            // console.log(bla);
+            var element = document.querySelector('.uk-pagination');
+            var pagination = UIkit.pagination(element, {
+                              items:json.page_lists_emp[i].total_data,
+                              itemsOnPage:10
+                 });
+            // console.log(pagination);
+          }
+    });
+          $('#ukauka').on('select.uk.pagination', function(e, pageIndex){
+              // console.log('You have selected page: ' + (pageIndex+1));
+            num = pageIndex+1;
+            searching(num)
+          });
+    //   });
+    // });
 
-function  searching(){
+}
+
+function  searching(num){
     var tipe_filter = $('#id_tipe_filter').val();
-    
+    var sortpage = 10;
+    if (num == null || num == "" || num == "undefined" ){
+      var page = 1;
+    } else {
+      var page =  num;
+    }
+    console.log("halaman dipilih : " + page);
+
     if ($('#id_keywords').val() == null || $('#id_keywords').val() == ""){
       var keywords = "all";
     } else {
@@ -115,7 +134,7 @@ function  searching(){
     }
     console.log("cari kata " + keywords);
 
-    $.getJSON('result-employee/'+ tipe_filter + '/' + keywords, function (json) {
+    $.getJSON('result-employee/' + sortpage + '/' + page + '/' + tipe_filter + '/' + keywords, function (json) {
       var tr;
       list = "";
 
@@ -140,13 +159,17 @@ function  searching(){
           tr.append("<td ><a href='/detail-user/"+json.emp_lists[i].email+"'><button type='submit' value='"+json.emp_lists[i].email+"' class='btn btn-primary btn-fw'>Update</button></a></td>");
           tr.append("<td ><a href='/remove-employee/"+json.emp_lists[i].email+"'><button type='submit' value='"+json.emp_lists[i].email+"' class='btn btn-danger btn-fw'>Remove</button></a></td>");
           $('#table_emp').append(tr);
-      }
 
+          pagenya = json.emp_lists[i].total_data;
+          hasil_akhir = json.emp_lists[i].hasil_akhir;
+      }
+       $('#totalnya').html("Total data : " + hasil_akhir + " / " + pagenya);
     }
     );
 }
 
 $(document).ready(function(){
+  mypagination()
   searching()
 });
 </script>

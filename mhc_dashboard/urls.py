@@ -23,6 +23,7 @@ urlpatterns = [
     path('company-lists/result-company/<path:sort>/<path:page>/<path:tipe_filter>/<path:keywords>', dashboard.company_lists, name='result-company'),
     path('company-lists/result-message/', dashboard.message_lists, name='result-message'),
     path('company-lists/result-page/', dashboard.page_lists, name='result-page'),
+    path('employee-lists/result-page-emp/', dashboard.page_lists_emp, name='result-page-emp'),
     path('remove-company/<path:dash_id>', dashboard.remove_company, name='remove-company'),
     path('employee-lists/result-employee/<path:sort>/<path:page>/<path:tipe_filter>/<path:keywords>', dashboard.employee_lists, name='result-employee'),
     path('remove-employee/<path:my_email>', dashboard.remove_employee, name='remove-employee'),

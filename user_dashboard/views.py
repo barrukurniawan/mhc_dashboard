@@ -422,11 +422,10 @@ def message_lists(request):
     return JsonResponse(json.loads(s1))
 
 @login_required(login_url='/login')
-def employee_lists(request, tipe_filter, keywords):
+def employee_lists(request, page, sort, tipe_filter, keywords):
     # keywords = request.POST.get('cari')
-    print (keywords)
-    print (tipe_filter)
 
+    page_choosen = request.POST.get('page', page)
     date_from = timezone.now() - timedelta(days=365)
     date_to = timezone.now()
 
@@ -443,10 +442,17 @@ def employee_lists(request, tipe_filter, keywords):
     elif tipe_filter == 'status' and keywords == keywords :
         query = UserBusiness.objects.filter(role__isnull=False, role__icontains=keywords, is_active='true', created_at__range=(date_from, date_to)).order_by('-created_at')
 
+    paginator = Paginator(query, sort)
+    hasil = paginator.page(page_choosen)
+    # print ('paginatornya = ',paginator)
+    print ('jumlah total data = ',paginator.count,',sort : ', sort,',keyword : ', keywords,',pilihan page = ',page_choosen)
+
     listing = []
-    for item in query:
+    for item in hasil.object_list:
         if item.is_active == 'true':
             akun = 'Active'
+            total_data = paginator.count
+            hasil_akhir = hasil.end_index()
         elif item.is_active == 'false':
             akun = 'Inactive'
 
@@ -461,11 +467,52 @@ def employee_lists(request, tipe_filter, keywords):
             'wilayah':item.wilayah,
             'created_at':str(item.created_at.strftime('%d/%m/%Y')),
             'updated_at':str(item.updated_at.strftime('%d/%m/%Y')),
-            'akun': akun
+            'akun': akun,
+            'total_data':total_data,
+            'hasil_akhir':hasil_akhir
         })
 
     data ={
         'emp_lists': listing
+    }
+    s1 = json.dumps(data)
+    return JsonResponse(json.loads(s1))
+
+@login_required(login_url='/login')
+def page_lists_emp(request):
+    page =1;
+    page_choosen = request.POST.get('page', page)
+
+    date_from = timezone.now() - timedelta(days=365)
+    date_to = timezone.now()
+
+    query = UserBusiness.objects.filter(is_active='true')
+    sort =1;
+
+    paginator = Paginator(query, sort)
+    hasil = paginator.page(page_choosen)
+    print(paginator.count)
+    print (hasil)
+
+    listing = []
+    for item in query :
+        if item.is_active == 'true':
+            status = 'Active'
+            total_data = paginator.count 
+            halaman_now = page_choosen
+            jumlah_halaman = paginator.num_pages
+        elif item.is_active == 'false':
+            status = 'Inactive'
+
+        listing.append({
+            'total_data' : total_data,
+            'halaman_now' : halaman_now,
+            'jumlah_halaman' : jumlah_halaman,
+            'sortir' : sort
+        })
+
+    data ={
+        'page_lists_emp': listing
     }
     s1 = json.dumps(data)
     return JsonResponse(json.loads(s1))
