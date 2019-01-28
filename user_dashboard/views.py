@@ -178,16 +178,16 @@ def add_user_dashboard(request):
             )
             user.save()
             print ("email akun : " + str(email) + " passwordnya : " + str(password))
-            # subject = 'Selamat Bergabung di MHC Business Web'
-            # message = 'Anda telah terdaftar pada account business atas nama perusahaan ' + 'MHC Company' + '\r\n\r\n'
-            # message += 'Silakan menggunakan fasilitas Dashboard Business di http://127.0.0.1:8000/login atau klik pada menu Go to Dashboard pada pilihan menu account anda. Terima kasih \r\n\r\n'
-            # message += 'Dashboard ID : ' + request.user.dashboard_id + '\r\n' \
-            #            'Nama Lengkap : ' + formUser.cleaned_data['first_name'] + ' ' + formUser.cleaned_data['last_name'] + '\r\n' \
-            #            'Login dengan menggunakan: \r\n' \
-            #             'Email : ' + formUser.cleaned_data['email'] + '\r\n' \
-            #             'Password : ' + password['password']
+            subject = 'Selamat Bergabung di MHC Dashboard Web'
+            message = 'Anda telah terdaftar pada account business atas nama perusahaan ' + 'MH Consulting' + '\r\n\r\n'
+            message += 'Silakan menggunakan fasilitas Dashboard Business di http://156.67.217.27:8000/login. Akun Anda memiliki hak akses sebagai ' + formUser.cleaned_data['role'] + '. Terima kasih \r\n\r\n'
+            message += 'Dashboard ID : ' + request.user.dashboard_id + '\r\n' \
+                       'Nama Lengkap : ' + formUser.cleaned_data['first_name'] + ' ' + formUser.cleaned_data['last_name'] + '\r\n' \
+                       'Silahkan Login dengan menggunakan: \r\n' \
+                        'Email : ' + formUser.cleaned_data['email'] + '\r\n' \
+                        'Password : ' + password['password']
 
-            # email_user(subject, message, [formUser.cleaned_data['email']])
+            email_user(subject, message, [formUser.cleaned_data['email']])
 
             return HttpResponseRedirect('/entry-employees')
 
