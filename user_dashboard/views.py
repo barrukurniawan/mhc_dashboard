@@ -104,6 +104,9 @@ def login_view(request):
 def handler404(request, exception):
     return render(request, 'user_dashboard/404.html', locals())
 
+def home_view(request):
+    return render(request, 'user_dashboard/home_mhc.html', locals())
+
 def email_user(subject, message, email_to):
     email_from = 'barru.kurniawan@gmail.com'
     send = send_mail(subject, message, email_from, email_to)
