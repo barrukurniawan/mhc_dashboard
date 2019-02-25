@@ -1,0 +1,53 @@
+{% extends "user_dashboard/base_cms.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title text-center" style="font-size:20px">Add Companies</h4>
+            <form id="filterECG" method="POST" action="{% url 'patient' %}">
+                {% csrf_token %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body purchase-filter">
+                            <table class="table-dashboard">
+                                <tr>
+                                    <td>Category</td>
+                                    <td>{{ filter.date_from }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Insurance</td>
+                                    <td>{{ filter.date_to }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <form action="" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-12"><label class="control-label"><b>Upload CSV Data Form</b></label></div>
+                    <div class="col-md-6"><input type="file" name="datafile" required="True" style="border:1px solid #eee"></div>
+                    <div class="col-md-6"><input type="submit" class="btn btn-red"></div>
+                  </div>
+                  </form>
+                </div>
+              </div>
+
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

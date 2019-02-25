@@ -109,6 +109,42 @@ class TaskBusiness(models.Model):
 		db_table = 'TaskBusiness'
 		verbose_name_plural = 'TaskBusiness'
 
+class TabelEcg(models.Model):
+	time = models.DateTimeField(auto_now_add=True)
+	api_key = models.CharField(max_length=8)
+	sensor_ecg = models.CharField(max_length=10, blank=True, null=True)
+	
+	class Meta:
+		db_table = 'tabel_ecg'
+		verbose_name_plural = 'tabel_ecg'
+
+class TabelEmg(models.Model):
+	time = models.DateTimeField(auto_now_add=True)
+	api_key = models.CharField(max_length=8)
+	sensor_emg = models.CharField(max_length=10, blank=True, null=True)
+	
+	class Meta:
+		db_table = 'tabel_emg'
+		verbose_name_plural = 'tabel_emg'
+
+class TabelEeg(models.Model):
+	time = models.DateTimeField(auto_now_add=True)
+	api_key = models.CharField(max_length=8)
+	sensor_eeg = models.CharField(max_length=10, blank=True, null=True)
+	
+	class Meta:
+		db_table = 'tabel_eeg'
+		verbose_name_plural = 'tabel_eeg'
+
+class TabelEog(models.Model):
+	time = models.DateTimeField(auto_now_add=True)
+	api_key = models.CharField(max_length=8)
+	sensor_eog = models.CharField(max_length=10, blank=True, null=True)
+	
+	class Meta:
+		db_table = 'tabel_eog'
+		verbose_name_plural = 'tabel_eog'
+
 class UserBusiness(models.Model):
     dashboard_id = models.CharField(max_length=8)
     email = models.CharField(max_length=40, blank=True, null=True)

@@ -1,5 +1,6 @@
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -9,15 +10,37 @@ from django.core.paginator import Paginator
 from django.db.models import Sum, Count
 from django.contrib.postgres.search import SearchVector
 from .backends import UserModelAuth
-from .forms import CustomUserCreationForm, LoginForm, OtpForm, ResetPassForm, UserBusinessForm, GroupBusinessForm, CompanyListForm, userDetailForm, ChangePassword, CommentsForm
-from .models import CustomUser, GroupBusiness, UserBusiness, TaskBusiness
+from .forms import CustomUserCreationForm, LoginForm, OtpForm, ResetPassForm, UserBusinessForm, GroupBusinessForm, CompanyListForm, userDetailForm, ChangePassword, CommentsForm, ECGListForm
+from .models import CustomUser, GroupBusiness, UserBusiness, TaskBusiness, TabelEcg, TabelEmg, TabelEog, TabelEeg
+from neural_network.views import train
 from bcrypt import hashpw, gensalt, checkpw
 from django.core.mail import send_mail, EmailMessage
 from datetime import datetime, timedelta
-import json, string, random, uuid
 from django.utils import timezone
+import json, string, random, uuid
 import pytz
-# Create your views here.
+
+def predict_jst(request):
+    user = CustomUser.objects.get(email=request.user.email)
+    dash_id = user.dashboard_id
+    ouput_predict = train(dash_id)
+    print ("HASIL PREDIKSI : ",ouput_predict)
+    return render(request, 'user_dashboard/result_neural.html')
+
+def patient_dash(request):
+    filter = ECGListForm()
+    if request.method == 'POST':
+        filter = ECGListForm(request.POST)
+
+        if filter.is_valid():
+            date_from = filter.cleaned_data['date_from']
+            date_to = filter.cleaned_data['date_to']
+
+    data = {
+        'filter' : filter
+    }
+
+    return render(request, 'user_dashboard/patient_dash.html', data)
 
 @login_required(login_url='/login')
 def company_lists(request):
@@ -347,6 +370,200 @@ def company_lists(request, page, sort, tipe_filter, keywords):
     }
     s1 = json.dumps(data)
     return JsonResponse(json.loads(s1))
+
+def api_ecg(request):
+    queryku = TabelEcg.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'ecg_value' : query.sensor_ecg
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
+
+def api_emg(request):
+    queryku = TabelEmg.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'emg_value' : query.sensor_emg
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
+
+def api_eeg(request):
+    queryku = TabelEeg.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'eeg_value' : query.sensor_eeg
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
+
+def api_eog(request):
+    queryku = TabelEog.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'eog_value' : query.sensor_eog
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
+
+def api_ecg(request):
+    queryku = TabelEcg.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'ecg_value' : query.sensor_ecg
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
+    
+def sensor_ecg(request, api_key, ecg_data):
+    print (ecg_data)
+
+    data_psg = TabelEcg.objects.create(
+        api_key = api_key,
+        sensor_ecg  = ecg_data
+    )
+    data_psg.save()
+
+    queryku = TabelEcg.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'ecg_value' : query.sensor_ecg
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
+
+def sensor_eeg(request, api_key, eeg_data):
+    print (eeg_data)
+
+    data_psg = TabelEeg.objects.create(
+        api_key = api_key,
+        sensor_eeg  = eeg_data
+    )
+    data_psg.save()
+
+    queryku = TabelEeg.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'eeg_value' : query.sensor_eeg
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
+
+def sensor_emg(request, api_key, emg_data):
+    print (emg_data)
+
+    data_psg = TabelEmg.objects.create(
+        api_key = api_key,
+        sensor_emg  = emg_data
+    )
+    data_psg.save()
+
+    queryku = TabelEmg.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'emg_value' : query.sensor_emg
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
+
+def sensor_eog(request, api_key, eog_data):
+    print (eog_data)
+
+    data_psg = TabelEog.objects.create(
+        api_key = api_key,
+        sensor_eog  = eog_data
+    )
+    data_psg.save()
+
+    queryku = TabelEog.objects.filter(api_key='BARRU276')
+    query = queryku.last()
+
+    listing = []
+    # for item in query:
+
+    listing.append({
+            'time'      : query.time,
+            'eog_value' : query.sensor_eog
+        })
+    # data ={
+    #     'psg_data': ecg_data
+    # }
+    # s1 = json.dumps(data)
+    # return JsonResponse(json.loads(s1))
+    return JsonResponse(listing, safe=False)
 
 @login_required(login_url='/login')
 def page_lists(request):

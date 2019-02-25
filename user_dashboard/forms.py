@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from .models import CustomUser, UserBusiness, Province, City, GroupBusiness
+from .models import CustomUser, UserBusiness, Province, City, GroupBusiness, TabelEcg, TabelEmg, TabelEog, TabelEeg
 from datetime import datetime, timedelta
 
 class CustomUserCreationForm(UserCreationForm):
@@ -252,3 +252,10 @@ class CompanyListForm(forms.Form):
     date_from.widget.attrs.update({'class': 'form-control'})
     date_to.widget.attrs.update({'class': 'form-control'})
     ordering.widget.attrs.update({'class': 'form-control'})
+
+class ECGListForm(forms.Form):
+	date_from = forms.DateField(label='Tanggal Awal', input_formats=['%d/%m/%Y'], initial=(datetime.now() - timedelta(days=365)).strftime('%d/%m/%Y'))
+	date_to = forms.DateField(label='Tanggal Akhir', input_formats=['%d/%m/%Y'], initial=datetime.now().strftime('%d/%m/%Y'))
+
+	date_from.widget.attrs.update({'class': 'form-control'})
+	date_to.widget.attrs.update({'class': 'form-control'})

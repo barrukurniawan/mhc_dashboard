@@ -35,10 +35,11 @@ DEBUG = True
 #     ALLOWED_HOSTS = []
 ALLOWED_HOSTS = []
 
-
+# ASGI_APPLICATION = "mhc_dashboard.routing.application"
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'user_dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
