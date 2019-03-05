@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <br />
+    <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+    <div id="chartContainer2" style="height: 400px; width: 100%;"></div>
+
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+      setInterval(() => {
+        const getData = async () => {
+          let res = await fetch("https://kurniawanbarru.pythonanywhere.com/api_ecg");
+          let data = await res.json();
+          return data;
+        };
+        const dataArr = getData().then(res => {
+          arr = [];
+          for (x = 0; x < res.length; x++) {
+            dt =
+              res[x].ecg_value === "inf" ? 1 : parseFloat(res[x].ecg_value);
+            arr.push(dt);
+          }
+          console.log(arr);
+
+          return arr;
+        });
+        dataArr.then(data => {
+          showGraph(data);
+        });
+      }, 100);
+
+      function showGraph(data) {
+        console.log("dd" + data);
+        var xAxisStripLinesArray = [];
+        var yAxisStripLinesArray = [];
+        var dps = [];
+        var dataPointsArray = data;
+
+        var color = "#D3C5D0";
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+          theme: "light2",
+          zoomEnabled: true,
+          title: {
+            text: "ECG",
+            horizontalAlign: "left",
+            fontColor: color
+          },
+          subtitles: [
+            {
+              text: "mV",
+              horizontalAlign: "left"
+
+            }
+          ],
+          axisY: {
+            stripLines: yAxisStripLinesArray,
+            gridColor: color,
+            lineColor: color,
+            gridThickness: 2,
+            tickThickness: 0,
+            labelFormatter: function(e) {
+              return "";
+            }
+          },
+          axisX: {
+            stripLines: xAxisStripLinesArray,
+            gridColor: color,
+            lineColor: color,
+            tickThickness: 0,
+            gridThickness: 2,
+            labelFormatter: function(e) {
+              return "";
+            }
+          },
+          data: [
+            {
+              type: "spline",
+              color: "red",
+              dataPoints: dps
+            }
+          ]
+        });
+
+        addDataPoints(chart);
+        addStripLines(chart);
+
+        function addDataPoints(chart) {
+          for (var i = 0; i < dataPointsArray.length; i++) {
+            dps.push({
+              y: dataPointsArray[i]
+            });
+          }
+          chart.render();
+          chart.axisX[0].set(
+            "interval",
+            (chart.axisX[0].get("maximum") - chart.axisX[0].get("minimum")) /
+              10,
+            false
+          ); //Show 10 major grids in axisX
+          chart.axisY[0].set(
+            "interval",
+            (chart.axisY[0].get("maximum") - chart.axisY[0].get("minimum")) / 5
+          ); //Show 10 major grids in axisX
+        }
+
+        function addStripLines(chart) {
+          //Adding StripLines
+          for (
+            var i = chart.axisY[0].minimum;
+            i < chart.axisY[0].maximum;
+            i = i + chart.axisY[0].interval / 10
+          ) {
+            if (i % chart.axisY[0].interval != 0)
+              yAxisStripLinesArray.push({
+                value: i,
+                thickness: 1,
+                color: color
+              });
+          }
+          for (
+            var i = chart.axisX[0].minimum;
+            i < chart.axisX[0].maximum;
+            i = i + chart.axisX[0].interval / 10
+          ) {
+            if (i % chart.axisX[0].interval != 0)
+              xAxisStripLinesArray.push({
+                value: i,
+                thickness: 1,
+                color: color
+              });
+          }
+          chart.render();
+        }
+      }
+
+// ---------- BATAS GRAFIK EMG --------------------------------------
+
+      setInterval(() => {
+        const getData = async () => {
+          let res = await fetch("https://kurniawanbarru.pythonanywhere.com/api_emg");
+          let data = await res.json();
+          return data;
+        };
+        const dataArr = getData().then(res => {
+          arr = [];
+          for (x = 0; x < res.length; x++) {
+            dt =
+              res[x].emg_value === "inf" ? 1 : parseFloat(res[x].emg_value);
+            arr.push(dt);
+          }
+          console.log(arr);
+
+          return arr;
+        });
+        dataArr.then(data => {
+          showGraph2(data);
+        });
+      }, 100);
+
+      function showGraph2(data) {
+        console.log("dd" + data);
+        var xAxisStripLinesArray = [];
+        var yAxisStripLinesArray = [];
+        var dps = [];
+        var dataPointsArray = data;
+
+        var color = "#D3C5D0";
+
+        var chart = new CanvasJS.Chart("chartContainer2", {
+          theme: "light2",
+          zoomEnabled: true,
+          title: {
+            text: "EMG",
+            horizontalAlign: "left",
+            fontColor: color
+          },
+          subtitles: [
+            {
+              text: "mV",
+              horizontalAlign: "left"
+
+            }
+          ],
+          axisY: {
+            stripLines: yAxisStripLinesArray,
+            gridColor: color,
+            lineColor: color,
+            gridThickness: 2,
+            tickThickness: 0,
+            labelFormatter: function(e) {
+              return "";
+            }
+          },
+          axisX: {
+            stripLines: xAxisStripLinesArray,
+            gridColor: color,
+            lineColor: color,
+            tickThickness: 0,
+            gridThickness: 2,
+            labelFormatter: function(e) {
+              return "";
+            }
+          },
+          data: [
+            {
+              type: "spline",
+              color: "green",
+              dataPoints: dps
+            }
+          ]
+        });
+
+        addDataPoints2(chart);
+        addStripLines2(chart);
+
+        function addDataPoints2(chart) {
+          for (var i = 0; i < dataPointsArray.length; i++) {
+            dps.push({
+              y: dataPointsArray[i]
+            });
+          }
+          chart.render();
+          chart.axisX[0].set(
+            "interval",
+            (chart.axisX[0].get("maximum") - chart.axisX[0].get("minimum")) /
+              10,
+            false
+          ); //Show 10 major grids in axisX
+          chart.axisY[0].set(
+            "interval",
+            (chart.axisY[0].get("maximum") - chart.axisY[0].get("minimum")) / 5
+          ); //Show 10 major grids in axisX
+        }
+
+        function addStripLines2(chart) {
+          //Adding StripLines
+          for (
+            var i = chart.axisY[0].minimum;
+            i < chart.axisY[0].maximum;
+            i = i + chart.axisY[0].interval / 10
+          ) {
+            if (i % chart.axisY[0].interval != 0)
+              yAxisStripLinesArray.push({
+                value: i,
+                thickness: 1,
+                color: color
+              });
+          }
+          for (
+            var i = chart.axisX[0].minimum;
+            i < chart.axisX[0].maximum;
+            i = i + chart.axisX[0].interval / 10
+          ) {
+            if (i % chart.axisX[0].interval != 0)
+              xAxisStripLinesArray.push({
+                value: i,
+                thickness: 1,
+                color: color
+              });
+          }
+          chart.render();
+        }
+      }
+    </script>
+  </body>
+</html>

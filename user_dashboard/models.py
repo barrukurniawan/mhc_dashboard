@@ -91,10 +91,10 @@ class GroupBusiness(models.Model):
 	message = models.TextField()
 	type_msg = models.CharField(max_length=30, blank=True, null=True)
 	recipient = models.CharField(max_length=30, blank=True, null=True)
-	
+
 	class Meta:
-		db_table = 'GroupBusiness'
-		verbose_name_plural = 'GroupBusiness'
+		db_table = 'groupbusiness'
+		verbose_name_plural = 'groupbusiness'
 
 class TaskBusiness(models.Model):
 	cc_comp = models.CharField(max_length=100, blank=True, null=True)
@@ -106,14 +106,14 @@ class TaskBusiness(models.Model):
 	dashboard_id = models.CharField(max_length=8)
 
 	class Meta:
-		db_table = 'TaskBusiness'
-		verbose_name_plural = 'TaskBusiness'
+		db_table = 'taskbusiness'
+		verbose_name_plural = 'taskbusiness'
 
 class TabelEcg(models.Model):
 	time = models.DateTimeField(auto_now_add=True)
 	api_key = models.CharField(max_length=8)
 	sensor_ecg = models.CharField(max_length=10, blank=True, null=True)
-	
+
 	class Meta:
 		db_table = 'tabel_ecg'
 		verbose_name_plural = 'tabel_ecg'
@@ -122,7 +122,7 @@ class TabelEmg(models.Model):
 	time = models.DateTimeField(auto_now_add=True)
 	api_key = models.CharField(max_length=8)
 	sensor_emg = models.CharField(max_length=10, blank=True, null=True)
-	
+
 	class Meta:
 		db_table = 'tabel_emg'
 		verbose_name_plural = 'tabel_emg'
@@ -131,7 +131,7 @@ class TabelEeg(models.Model):
 	time = models.DateTimeField(auto_now_add=True)
 	api_key = models.CharField(max_length=8)
 	sensor_eeg = models.CharField(max_length=10, blank=True, null=True)
-	
+
 	class Meta:
 		db_table = 'tabel_eeg'
 		verbose_name_plural = 'tabel_eeg'
@@ -140,7 +140,7 @@ class TabelEog(models.Model):
 	time = models.DateTimeField(auto_now_add=True)
 	api_key = models.CharField(max_length=8)
 	sensor_eog = models.CharField(max_length=10, blank=True, null=True)
-	
+
 	class Meta:
 		db_table = 'tabel_eog'
 		verbose_name_plural = 'tabel_eog'
@@ -160,8 +160,8 @@ class UserBusiness(models.Model):
     status = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-    	db_table = 'UserBusiness'
-    	verbose_name_plural = 'UserBusiness'
+    	db_table = 'userbusiness'
+    	verbose_name_plural = 'userbusiness'
 
 class PaymentFee(models.Model):
     payment_method = models.CharField(max_length=10, blank=True, null=True)

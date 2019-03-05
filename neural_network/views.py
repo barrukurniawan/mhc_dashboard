@@ -60,7 +60,7 @@ class Neural_Network(object):
 
   def predict(self,dash_id):
   	print (dash_id)
-  	query = TabelEcg.objects.filter(api_key=dash_id)
+  	query = TabelEcg.objects.filter(api_key=dash_id).order_by('-id')[:10]
   	listing = []
   	# my_aray = []
   	for item in query :
@@ -92,11 +92,11 @@ def train(dash_id):
 
 	NN.saveWeights()
 	outputnya = NN.predict(dash_id)
-	list_neural = {
-		"input (scaled)"	: str(X),
-		"actual output"		: str(y),
-		"predicted output"	: str(NN.forward(X)),
+	list_neural = [{
+		"input_scaled"	: str(X),
+		"actual_output"		: str(y),
+		"predicted_output"	: str(NN.forward(X)),
 		"loss"				: str(np.mean(np.square(y - NN.forward(X)))),
-		"output data graph"	: outputnya
-		}
+		"output_data_graph"	: ''.join(outputnya)
+		}]
 	return (list_neural)

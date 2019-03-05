@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <style>
+        .button {
+          background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 16px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          -webkit-transition-duration: 0.4s; /* Safari */
+          transition-duration: 0.4s;
+          cursor: pointer;
+        }
+        
+        .button1 {
+          background-color: white; 
+          color: black; 
+          border: 2px solid #4CAF50;
+        }
+    </style>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Insomnia Detection Graph</title>
+		
+		<!-- 1. Add these JavaScript inclusions in the head of your page -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.1.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 
+		<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+	</head>
+	<body>
+	    <!--<button class="button button1" onclick="myFunction()">Open Graph</button>-->
+	    <!--<button class="button button1" onclick="myFunctions()">Open Graph</button>-->
+        <!--<div id="chartContainer" style="height: 300px; width: 100%;"></div>-->
+        <!--<div id="chartContainers" style="height: 300px; width: 100%;"></div>-->
+
+		<!-- 3. Add the container -->
+		<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+		<div id="containereog" style="width: 800px; height: 400px; margin: 0 auto"></div>
+		<div id="containereeg" style="width: 800px; height: 400px; margin: 0 auto"></div>
+		<div id="containeremg" style="width: 800px; height: 400px; margin: 0 auto"></div>
+        <div id="arfa_graph" style="width: 800px; height: 400px; margin: 0 auto"></div>
+		
+		<!--<div style="width: 800px; height: 400px; text-align:center; margin: 0 auto">-->
+  <!--      <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/apps/plugins/269338"></iframe>		-->
+		<!--</div>-->
+		<!--<div style="width: 800px; height: 400px; text-align:center; margin: 0 auto">-->
+  <!--      <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/680234/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>-->
+  <!--      </div>-->
+        
+        <!-- DATA FROM THINGSPEAK -->
+        <!--<table border=2 bordercolor="#E73610" style="align:center;margin: 0px auto;">-->
+        <!--<tr><td colspan="2">-->
+        <!--<h1 align="center" color="#E73610">Example Data Of  "R S T" Signal From Thingspeak </h1>-->
+        <!--</td></tr>-->
+        <!--<tr><td>-->
+        <!--<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/apps/plugins/269338"></iframe>-->
+        <!--</td>-->
+        <!--<td><iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/680234/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>-->
+        <!--</td></tr>-->
+        <!--<tr><td>-->
+        <!--<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/680234/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/680234/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>-->
+        <!--</td>-->
+	<script>
+	var chart; // global
+	var charteog;
+	var live_server = "http://health.barrukurniawan.tech/api_heartrate.php";
+	
+	// --------------- COMMAND -------------------
+// window.onload = function () {
+
+// var dps = []; // dataPoints
+// var chart = new CanvasJS.Chart("chartContainer", {
+// 	title :{
+// 		text: "Dynamic Data"
+// 	},
+// 	axisY: {
+// 		includeZero: false
+// 	},      
+// 	data: [{
+// 		type: "line",
+// 		dataPoints: dps
+// 	}]
+// });
+
+// var xVal = 0;
+// var yVal = 100; 
+// var updateInterval = 100;
+// var dataLength = 20; // number of dataPoints visible at any point
+
+// var updateChart = function (count) {
+
+// 	count = count || 1;
+
+// 	$.getJSON('api_heartrate.php', function (point) {
+// 		dps.push({
+// 			x: new Date(point[0].time),
+// 			y: parseInt(point[0].nilai_sensor)
+// 		});
+//     });
+
+// 	if (dps.length > dataLength) {
+// 		dps.shift();
+// 	}
+
+// 	chart.render();
+// };
+
+// updateChart(dataLength);
+// setInterval(function(){updateChart()}, updateInterval);
+
+// }
+
+	// ------------------------------------------------------------
+    window.onload = function () {
+    
+    var dps = []; // dataPoints
+    var chart = new CanvasJS.Chart("arfa_graph", {
+    	title :{
+    		text: "arfa Data"
+    	},
+    	axisY: {
+    		includeZero: false
+    	},      
+    	data: [{
+    		type: "line",
+    		dataPoints: dps
+    	}]
+    });
+    
+    var xVal = 0;
+    var yVal = 100; 
+    var updateInterval = 100;
+    var dataLength = 20; // number of dataPoints visible at any point
+    
+    var updateChart = function (count) {
+    
+    	count = count || 1;
+    
+    	for (var j = 0; j < count; j++) {
+    		yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+    		dps.push({
+    			x: xVal,
+    			y: yVal
+    		});
+    		xVal++;
+    	}
+    
+    	if (dps.length > dataLength) {
+    		dps.shift();
+    	}
+    
+    	chart.render();
+    };
+    
+    updateChart(dataLength);
+    setInterval(function(){updateChart()}, updateInterval);
+    
+    }
+	// --------------------------------------------------------------
+	
+	let addedTime = 0; 
+	function requestData(chart) {
+        $.getJSON('api_ecg', function (point) {
+    		var series = chart.series[0],
+    			shift = series.data.length > 20; 
+            chart.series[0].addPoint({
+                x: new Date(point[0].time),
+                y: parseInt(point[0].nilai_sensor)
+            }, true, shift);
+            // addedTime += 1000
+        });
+	}
+	// -------------------------------- EOG -----
+	function eogData(charteog) {
+        $.getJSON('api_eog.php', function (pointeog) {
+    		var series = charteog.series[0],
+    			shifteog = series.data.length > 20; 
+            charteog.series[0].addPoint({
+                x: new Date(pointeog[0].time).getTime() + addedTime,
+                y: parseInt(pointeog[0].nilai_sensor)
+            }, true, shifteog);
+            addedTime += 1000
+        });
+	}
+	// -------------------------------- EMG -----
+	function emgData(chartemg) {
+        $.getJSON('api_emg', function (point) {
+    		var series = chartemg.series[0],
+    			shift = series.data.length > 20; 
+            chartemg.series[0].addPoint({
+                x: new Date(point[0].time).getTime() + addedTime,
+                y: parseInt(point[0].nilai_sensor)
+            }, true, shift);
+            addedTime += 1000
+        });
+	}
+	// --------------------------------- EEG -----
+	function eegData(charteeg) {
+        $.getJSON('api_eeg.php', function (point) {
+    		var series = charteeg.series[0],
+    			shift = series.data.length > 20; 
+            charteeg.series[0].addPoint({
+                x: new Date(point[0].time).getTime() + addedTime,
+                y: parseInt(point[0].nilai_sensor)
+            }, true, shift);
+            addedTime += 1000
+        });
+	}
+	
+	// ----------------------------------- request data ----	
+     $(document).ready(function() {
+       var chart = new Highcharts.Chart({
+         chart: {
+           renderTo: 'container',
+           defaultSeriesType: 'spline',
+           events: {
+             load: function() {
+               setInterval(function() {
+                 requestData(chart)
+               }, 500);
+             }
+           }
+         },
+         title: {
+           text: 'Live ECG Data'
+         },
+         xAxis: {
+           type: 'datetime',
+           tickPixelInterval: 150,
+           maxZoom: 20 * 1000
+         },
+         yAxis: {
+           minPadding: 0.2,
+           maxPadding: 0.2,
+           title: {
+             text: 'ECG Value',
+             margin: 80
+           }
+         },
+         series: [{
+           name: 'ECG data',
+           data: []
+         }]
+       });
+       // -------------------------------------- EOG -------------
+       var charteog = new Highcharts.Chart({
+         chart: {
+           renderTo: 'containereog',
+           defaultSeriesType: 'spline',
+           events: {
+             load: function() {
+               setInterval(function() {
+                 eogData(charteog)
+               }, 500);
+             }
+           }
+         },
+         title: {
+           text: 'Live EOG Data'
+         },
+         xAxis: {
+           type: 'datetime',
+           tickPixelInterval: 150,
+           maxZoom: 20 * 1000
+         },
+         yAxis: {
+           minPadding: 0.2,
+           maxPadding: 0.2,
+           title: {
+             text: 'EOG Value',
+             margin: 80
+           }
+         },
+         series: [{
+           name: 'EOG data',
+           data: []
+         }]
+       });
+       // ----- EEG -------------
+       var charteeg = new Highcharts.Chart({
+         chart: {
+           renderTo: 'containereeg',
+           defaultSeriesType: 'spline',
+           events: {
+             load: function() {
+               setInterval(function() {
+                 eegData(charteeg)
+               }, 500);
+             }
+           }
+         },
+         title: {
+           text: 'Live EEG Data'
+         },
+         xAxis: {
+           type: 'datetime',
+           tickPixelInterval: 150,
+           maxZoom: 20 * 1000
+         },
+         yAxis: {
+           minPadding: 0.2,
+           maxPadding: 0.2,
+           title: {
+             text: 'EEG Value',
+             margin: 80
+           }
+         },
+         series: [{
+           name: 'EEG data',
+           data: []
+         }]
+       });
+       
+       // ----- EMG -------------
+       var chartemg = new Highcharts.Chart({
+         chart: {
+           renderTo: 'containeremg',
+           defaultSeriesType: 'spline',
+           events: {
+             load: function() {
+               setInterval(function() {
+                 emgData(chartemg)
+               }, 500);
+             }
+           }
+         },
+         title: {
+           text: 'Live EMG Data'
+         },
+         xAxis: {
+           type: 'datetime',
+           tickPixelInterval: 150,
+           maxZoom: 20 * 1000
+         },
+         yAxis: {
+           minPadding: 0.2,
+           maxPadding: 0.2,
+           title: {
+             text: 'EMG Value',
+             margin: 80
+           }
+         },
+         series: [{
+           name: 'EEG data',
+           data: []
+         }]
+       });
+     });
+	</script>
+	
+    <script>
+    function myFunction() {
+      var x = document.getElementById("chartContainer");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    function myFunctions() {
+      var x = document.getElementById("container");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    
+	// ---------------------- CANVASJS --------------------------------------
+    window.onload = function () {
+     
+    var dataPoints = []; // dataPoints
+    var chart = new CanvasJS.Chart("arfa_graph", {
+    	title :{
+    		text: "Dynamic Data"
+    	},
+    	axisY: {
+    		includeZero: false
+    	},      
+    	data: [{
+    		type: "line",
+    		dataPoints: dataPoints
+    	}]
+    });
+     
+    var xVal = 0;
+    var yVal = 100; 
+    var updateInterval = 1000;
+    var dataLength = 20; // number of dataPoints visible at any point
+    let addedTime = 0;
+    $.getJSON("api_heartrate.php", function(json) {  
+        $.each(json, function(i){
+            dataPoints.push({x: new Date(json[0].time).getTime() + addedTime,  y: parseInt(json[0].nilai_sensor)});
+        });
+        addedTime += 1000
+        chart.render();
+    });
+    
+    // var updateChart = function (count) {
+     
+    // 	count = count || 1;
+     
+    // 	for (var j = 0; j < count; j++) {
+    // 		yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+    // 		dps.push({
+    // 			x: xVal,
+    // 			y: yVal
+    // 		});
+    // 		xVal++;
+    // 	}
+     
+    // 	if (dps.length > dataLength) {
+    // 		dps.shift();
+    // 	}
+     
+    // 	chart.render();
+    // };
+     
+    // updateChart(dataLength);
+    // setInterval(function(){updateChart()}, updateInterval);
+     
+    }                                
+	// ----------------------- END OF CANVASJS ------------------------------
+    </script>
+	</body>
+
+</html>

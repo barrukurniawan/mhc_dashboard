@@ -18,6 +18,10 @@ from django.urls import path
 from user_dashboard import views as dashboard
 
 urlpatterns = [
+    path('barru/', dashboard.terima_data, name='barru'),
+    path('insomnia/', dashboard.hasil_data, name='insomnia'),
+    path('myval/<path:api_key>/<path:ecg_data>/<path:emg_data>', dashboard.get_data, name='myval'),
+    path('graph-result/', dashboard.graph_result, name='graph-result'),
     path('entry-employees/', dashboard.add_user_dashboard, name='entry-employees'),
     path('entry-companies/', dashboard.add_company, name='entry-companies'),
     path('company-lists/result-company/<path:sort>/<path:page>/<path:tipe_filter>/<path:keywords>', dashboard.company_lists, name='result-company'),

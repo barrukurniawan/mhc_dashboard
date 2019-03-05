@@ -33,13 +33,12 @@ DEBUG = True
 
 # if DEBUG is True:
 #     ALLOWED_HOSTS = []
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-# ASGI_APPLICATION = "mhc_dashboard.routing.application"
+
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
     'user_dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,7 +86,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'barru.kurniawan@gmail.com'
-EMAIL_HOST_PASSWORD = 'barrusman60'
+EMAIL_HOST_PASSWORD = 'sman60jakarta'
 
 
 # Database
@@ -96,10 +95,10 @@ EMAIL_HOST_PASSWORD = 'barrusman60'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mhc_admin',
-        'HOST': '127.0.0.1',
-        'USER':'root',
-        'PASSWORD': '',
+        'NAME': 'kurniawanbarru$mhcadmin',
+        'HOST': 'kurniawanbarru.mysql.pythonanywhere-services.com',
+        'USER':'kurniawanbarru',
+        'PASSWORD': 'sman60jakarta',
     }
 }
 

@@ -6,7 +6,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Login</title>
+  <title>Result Analysis</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}">
   <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
@@ -62,7 +62,7 @@
                             <img src="{% static 'images/faces-clipart/pic-1.png' %}" alt="image">
                           </td>
                           <td>
-                            Admin MHC
+                            Barru K
                           </td>
                           <td>
                             23
@@ -95,6 +95,9 @@
                             Output Predict
                           </th>
                           <th>
+                            Output Error
+                          </th>
+                          <th>
                             Health Rate
                           </th>
                           <th>
@@ -110,8 +113,13 @@
                           <td>
                             ECG
                           </td>
+                          {% for data in result %}
                           <td>
-                            0,09734
+                            {{ data.output_data_graph }}
+                          </td>
+                          {% endfor %}
+                          <td>
+                            3 %
                           </td>
                           <td>
                             <div class="progress">
@@ -133,6 +141,9 @@
                             1,734
                           </td>
                           <td>
+                            8 %
+                          </td>
+                          <td>
                             <div class="progress">
                               <div class="progress-bar bg-success" role="progressbar" style="width: 95%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
@@ -146,6 +157,12 @@
                         </tr>
                       </tbody>
                     </table>
+                    <div class="card-title"></div>
+                    <p class="card-description">
+                    Form
+                    <code>.output-analysis</code>
+                  </p>
+                    <h4 class="card-title" style="text-align: center;">Predict : Anda Tidak Menderita Insomnia, dinyatakan sehat</h4>
                   </div>
                 </div>
               </div>

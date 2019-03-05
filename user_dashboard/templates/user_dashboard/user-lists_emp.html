@@ -7,7 +7,7 @@
         <div class="input-group" >
           <div >
               <select name="role" class="form-control" id="id_tipe_filter" onchange="searching()" onkeypress="this.onchange()" onclick="this.onchange()"  >
-                <option value="nama">Nama Karyawan</option>
+                <option value="nama">Nama Pasien</option>
                 <option value="status">Role / Level Struktur</option>
                 <option value="posisi">Posisi Pekerjaan</option>
               </select>
@@ -84,7 +84,7 @@
 
 {% endblock %}
 {% block scripts %}
-<script src="https://code.jquery.com/jquery-3.1.0.js"></script> 
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/uikit.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.2/js/components/pagination.js"></script>
 <script type="text/javascript">
@@ -130,7 +130,7 @@ function  searching(num){
     if ($('#id_keywords').val() == null || $('#id_keywords').val() == ""){
       var keywords = "all";
     } else {
-      var keywords = $('#id_keywords').val();  
+      var keywords = $('#id_keywords').val();
     }
     console.log("cari kata " + keywords);
 
@@ -145,13 +145,12 @@ function  searching(num){
       // $('#coba').html(list);
 
       $('#table_emp').empty();
-      $('#table_emp').append("<tr style='text-align:center;'><th>Nama Karyawan</th><th>Posisi</th><th>Email</th><th>Role</th><th>Status</th><th>Created at</th><th>Updated at</th><th>UPDATE</th><th>REMOVE</th></tr>");
+      $('#table_emp').append("<tr style='text-align:center;'><th>Nama Pasien</th><th>Posisi</th><th>Email</th><th>Status</th><th>Created at</th><th>Updated at</th><th>UPDATE</th><th>REMOVE</th></tr>");
       for (var i = 0; i < json.emp_lists.length; i++) {
           tr = $('<tr/>');
           tr.append("<td style='font-weight:bold;'>" + json.emp_lists[i].full_name + "</td>");
           tr.append("<td style='color:blue;'>" + json.emp_lists[i].status + "</td>");
           tr.append("<td>" + json.emp_lists[i].email + "</td>");
-          tr.append("<td>" + json.emp_lists[i].role + "</td>");
           tr.append("<td style='color:green;'>" + json.emp_lists[i].akun + "</td>");
           tr.append("<td style='color:red;'>" + json.emp_lists[i].created_at + "</td>");
           tr.append("<td style='color:red;'>" + json.emp_lists[i].updated_at + "</td>");
