@@ -33,7 +33,7 @@ DEBUG = True
 
 # if DEBUG is True:
 #     ALLOWED_HOSTS = []
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.marketing.isosurabaya.com','marketing.isosurabaya.com','156.67.217.27']
 
 
 # Application definition
@@ -95,10 +95,9 @@ EMAIL_HOST_PASSWORD = 'barrusman60'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mhc_admin',
-        'HOST': '127.0.0.1',
-        'USER':'root',
-        'PASSWORD': '',
+        'OPTIONS': {
+            'read_default_file' : '/etc/mysql/my.cnf',
+        },
     }
 }
 
@@ -138,6 +137,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+#STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (

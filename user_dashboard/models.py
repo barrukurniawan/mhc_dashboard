@@ -93,8 +93,8 @@ class GroupBusiness(models.Model):
 	recipient = models.CharField(max_length=30, blank=True, null=True)
 	
 	class Meta:
-		db_table = 'GroupBusiness'
-		verbose_name_plural = 'GroupBusiness'
+		db_table = 'groupbusiness'
+		verbose_name_plural = 'groupbusiness'
 
 class TaskBusiness(models.Model):
 	cc_comp = models.CharField(max_length=100, blank=True, null=True)
@@ -106,8 +106,8 @@ class TaskBusiness(models.Model):
 	dashboard_id = models.CharField(max_length=8)
 
 	class Meta:
-		db_table = 'TaskBusiness'
-		verbose_name_plural = 'TaskBusiness'
+		db_table = 'taskbusiness'
+		verbose_name_plural = 'taskbusiness'
 
 class UserBusiness(models.Model):
     dashboard_id = models.CharField(max_length=8)
@@ -124,8 +124,8 @@ class UserBusiness(models.Model):
     status = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-    	db_table = 'UserBusiness'
-    	verbose_name_plural = 'UserBusiness'
+    	db_table = 'userbusiness'
+    	verbose_name_plural = 'userbusiness'
 
 class PaymentFee(models.Model):
     payment_method = models.CharField(max_length=10, blank=True, null=True)
