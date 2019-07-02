@@ -83,7 +83,7 @@ def login_view(request):
                 login(request, user)
                 
                 if user.is_active == 'true':
-                    return HttpResponseRedirect('/entry-companies')
+                    return HttpResponseRedirect('/company-lists')
                 else:
                     return HttpResponseRedirect('/register')
             else:
