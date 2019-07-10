@@ -33,7 +33,7 @@ DEBUG = True
 
 # if DEBUG is True:
 #     ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['www.marketing.isosurabaya.com','marketing.isosurabaya.com','156.67.217.27']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -92,15 +92,24 @@ EMAIL_HOST_PASSWORD = 'barrusman60'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'OPTIONS': {
+#             'read_default_file' : '/etc/mysql/my.cnf',
+#         },
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file' : '/etc/mysql/my.cnf',
-        },
+        'NAME': 'marketingmhc$default',
+        'HOST': 'marketingmhc.mysql.pythonanywhere-services.com',
+        'USER':'marketingmhc',
+        'PASSWORD': 'SMAN60jakarta',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -126,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
